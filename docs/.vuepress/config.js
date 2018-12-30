@@ -3,7 +3,6 @@ module.exports = {
     description: 'blog 日常记录 前端学习',
     head:[
         ['link',{rel:'icon',href:`/logo.png`}]
-        // ['link', { rel: 'shortcut icon', type: "image/x-icon", href: `./favicon.ico` }]
     ],
     themeConfig: {
         navbar:true,
@@ -12,7 +11,7 @@ module.exports = {
             { text: 'FE-框架',  link: '/frame/' },
             { text: 'FE-面试',  link: '/interview/' },
             { text: '年终总结', link: '/summary/' },
-            { text: 'GitHub',  link: 'https://google.com' },
+            { text: 'GitHub',  link: 'https://github.com/https://github.com/lnden' },
         ],
         sidebar:{
             '/basics/': getBasics('FE-基础'),
@@ -23,7 +22,8 @@ module.exports = {
         sidebarDepth:2,
         lastUpdated: 'Last Updated',
         search:true
-    }
+    },
+    base:'/vuepress/'
 };
 
 
