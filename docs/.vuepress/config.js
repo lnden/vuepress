@@ -11,7 +11,7 @@ module.exports = {
             { text: 'FE-框架',  link: '/frame/' },
             { text: 'FE-面试',  link: '/interview/' },
             { text: '年终总结', link: '/summary/' },
-            { text: 'GitHub',  link: 'https://github.com/https://github.com/lnden' },
+            { text: 'GitHub',  link: 'https://github.com/lnden' },
         ],
         sidebar:{
             '/basics/': getBasics('FE-基础'),
