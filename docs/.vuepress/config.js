@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'Hello VuePress',
+    title: '始于前端，但不止于前端',
     description: 'blog 日常记录 前端学习',
     head:[
         ['link',{rel:'icon',href:`/logo.png`}]
@@ -20,7 +20,7 @@ module.exports = {
             '/summary/': getSummary('年终总结')
         },
         sidebarDepth:2,
-        lastUpdated: 'Last Updated',
+        lastUpdated: '上次更新',
         search:true
     },
     base:'/vuepress/'
@@ -52,7 +52,8 @@ function getFrame(title) {
                 'react',
                 'redux',
                 'angular',
-                'weChat'
+                'weChat',
+                'nuxt'
             ]
         }
     ]
@@ -76,7 +77,8 @@ function getSummary(title) {
             title,
             collapsable: false,
             children: [
-                ''
+                '',
+                'vuepress'
             ]
         }
     ]
