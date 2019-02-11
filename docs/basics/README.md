@@ -1,58 +1,131 @@
-# 介绍
+# ECMAScript
+
+## ES2015[ES6]新特性
+
+## ES2016[ES7]新特性
+
+### Array.prototype.includes
+表示某个数组是否包含给定的值，与字符串includes()方法类似
+
+includes(value,index)
+value是要检索的值，index是要检索的位置值
+
+```
+const arr = ['a','b','c','d']
+arr.includes('a')
+// → true
+
+const num = [2,4,6,8,NaN]
+num.includes(NaN)
+// → true
+```
+该方法替换indexOf()出现,indexOf检索值为空返回-1,存在则返回对应下标。
+
+1.如果数组中有NaN,又刚好需要判断是否有存在NaN,这个时候indexOf是无法判断的
+```
+var ary1 = [NaN];
+console.log(ary1.indexOf(NaN))//-1
+console.log(ary1.includes(NaN))//true
+```
+2.当数组有空值的时候，incldes会认为控制是undefined,而indexOf不会
+```
+var ary1 = new Array(3);
+console.log(ary1.indexOf(undefined));//-1
+console.log(ary1.includes(undefined))//true
+```
+
+### Math.pow 幂的值
+
+```
+Math.pow(x,y)
+// → 返回 x 的 y 次幂
+
+x**y ==> Math.pow(x,y)
+
+Math.pow(2,4) == 2**4
+// → true
+```
+
+## ES2017[ES8]新特性
+
+## ES2018[ES9]新特性
+
+### Promise.finally()
+
+`finally` 方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。
+```
+promise
+    .then(result => {...})
+    .catch(error => {...})
+    .finally(() => {...});
+```
+上面代码中，不管`promise`最后的状态，在执行完成then或caych指定的回调函数以后，都会执行finally方法指定的回调函数。
+
+下面是一个例子，服务器使用 Promise 处理请求，然后使用finally方法关掉服务器。
+```
+server.listen(port)
+    .then(()=>{
+        // ...
+    })
+    .finally(()=>{
+        server.stop;
+    })
+```
+finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
+
+### async/await
 
 
-VuePress 由两部分组成：一个以 Vue 驱动的主题系统的简约静态网站生成工具，和一个为编写技术文档而优化的默认主题。它是为了支持 Vue 子项目的文档需求而创建的。
 
-由 VuePress 生成的每个页面，都具有相应的预渲染静态 HTML，它们能提供出色的加载性能，并且对 SEO 友好。然而，页面加载之后，Vue 就会将这些静态内容，接管为完整的单页面应用程序(SPA)。当用户在浏览站点时，可以按需加载其他页面。
+### rest/spread属性
 
-## 运行原理(how it works)
+### 解构赋值
 
-VuePress 网站实际上是由 [Vue](http://vuejs.org/), [Vue Router](https://github.com/vuejs/vue-router) 和 [webpack](http://webpack.js.org/) 驱动的单页面应用程序。如果你以前使用过 Vue，那么在编写或开发自定义主题时（甚至可以使用 Vue DevTools 来调试你的自定义主题！），你会融入到熟悉的开发体验中！
+### RegExp相关功能
 
-在构建过程中，我们会创建应用程序的服务器渲染版本，并且实际上是通过访问每个路由，来渲染相应的 HTML。这种方式受到 [Nuxt](https://nuxtjs.org/) 的 `nuxt generate` 命令以及 [Gatsby](https://www.gatsbyjs.org/) 等其他项目的启发。
 
-每个 markdown 文件都使用 [markdown-it](https://github.com/markdown-it/markdown-it) 编译为 HTML，然后作为 Vue 组件的模板进行处理。这允许你直接在 markdown 文件中使用 Vue，在需要嵌入动态内容时，这种使用方式非常有用。
 
-## 特性(features)
 
-- [内置 markdown 扩展](./markdown.md)，针对技术文档进行了优化
-- [能够利用内嵌在 markdown 文件中的 Vue 代码](./using-vue.md)
-- [以 Vue 驱动的自定义主题系统](./custom-themes.md)
-- [自动生成 Service Worker](../config/README.md#serviceworker)
-- [Google Analytics 集成](../config/README.md#ga)
-- [基于 Git 的"最近更新"](../default-theme-config/README.md#最近更新)
-- [多语言支持](./i18n.md)
-- 一个默认主题包括：
-  - 响应式布局
-  - [可选的主页](../default-theme-config/README.md#主页-homepage)
-  - [简单、开箱即用、基于标题的搜索功能](../default-theme-config/README.md#内置搜索-built-in-search)
-   - [Algolia 搜索](../default-theme-config/README.md#algolia-search)
-  - 可定制的[导航栏](../default-theme-config/README.md#导航栏-navbar)和[侧边栏](../default-theme-config/README.md#侧边栏-sidebar)
-  - [自动生成的 GitHub 链接和页面编辑链接](../default-theme-config/README.md#git-仓库和编辑链接)
+## ES2019[ES10]新特性
 
-## 待实现特性(todo)
+### Array #{flat,flatMap}
 
-VuePress 的开发仍在进行中。有几件目前不支持，但计划做的功能：
+数组降维，递归地将数组展平到指定的深度，默认为1。
+```
+const array = [1,[2,[3]]];
+array.flat()
+// → [1,2,[3]]
+```
 
-- 插件支持
-- 博客支持
+```
+[1,2,3,4].flatMap((x)=>[x,x*2])
+// → [2,4,3,6,4,8]
+```
 
-欢迎贡献！
+### Object.fromEntries
 
-## 为什么不使用下面这些工具？
+数据格式转换 Object.fromEntries（Object.entries（object））≈ 对象
+```
+const object = { x: 42, y: 50 };
+const entries = Object.entries(object);
+// → [['x',42],['y',50]]
 
-### Nuxt
+const result = Object.fromEntries(entries);
+// → { x: 42, y: 50 }
+```
 
-VuePress 能做的事情，Nuxt 也同样能够实现，但是，它是为构建应用程序而设计的。而 VuePress 专注于以内容为中心的静态网站，并且为开箱即用的技术文档，提供量身定制的功能。
+### String #{trimStart,trimEnd}
+前后的空白符可以指定一边去除。
+```
+const string = '  hello word  ';
+string.trimStart();
+// → 'hello word  '
 
-### Docsify / Docute
+string.trimEnd();
+// → '  hello word'
 
-二者都是伟大的项目，也都是以 Vue 驱动。但它们完全是运行时驱动(runtime-driven)的项目，因此不适合 SEO 优化。如果你不关心 SEO 优化，也不想因为安装依赖而扰乱心神，这些仍然是不错的选择。
+string.trim();
+// → 'hello word'
+```
 
-### Hexo
-
-Hexo 一直在为 Vue 文档提供服务 - 事实上，离我们的主站完全迁移到 VuePress，可能还要经过一段时间。其中最大的问题是，它的主题系统是非常静态和基于字符串的 - 我们确实需要利用 Vue 来实现布局和交互。此外，无法对 Hexo 的 markdown 渲染，进行极其灵活的配置。
-
-### GitBook
-
-我们大部分的子项目文档中已经使用了 GitBook。GitBook 的主要问题是有大量文件时，它的开发重载性能简直令人无法容忍。它的默认主题也只有一个非常有限的导航结构，并且主题系统也不是基于 Vue 的。GitBook 背后的团队也更注重将其打造为一个商业产品，而不是开源工具。
+### Symbol.prototype.description

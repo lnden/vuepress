@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抽奖程序无样式</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://lib.baomitu.com/lodash.js/4.14.1/lodash.min.js"></script>
+</head>
+<body>
+<div id="list-complete-demo" class="demo">
+    <button v-on:click="start">start</button>
+    <button v-on:click="end">end</button>
+    <div class="draw-list">
+        <span v-for="item in target">{{item}}</span>
+    </div>
+    <transition-group name="list-complete" tag="p">
+            <span v-for="item in arrList" v-bind:key="item" class="list-complete-item" :class="{'draw-bg': item == value}">
+                {{ item }}
+            </span>
+    </transition-group>
+</div>
+<script>
+    new Vue({
+        el: '#list-complete-demo',
+        data: {
+            arrList: [
+                "张三",
+                "李四",
+                "王五",
+                "赵六",
+                "陈七",
+                "张扒",
+                "李十四",
+                "王十五",
+                "赵十六",
+                "陈十七",
+                "张二三",
+                "李二四",
+                "王二五",
+                "赵二六",
+                "陈二七",
+                "张二扒",
+                "李三四",
+                "王三五",
+                "赵三六",
+                "陈三七"
+            ],
+            target: [],//中奖名单
+            index: -1,//当前随机索引
+            timer: null,//定义一个定时器
+            value: '',//当前人员名
+            status: true//当前抽奖状态
+        },
+        mounted() {
+            if (!localStorage.getItem('initData')) {
+                localStorage.setItem('initData', JSON.stringify(this.arrList))
+            } else {
+                this.arrList = JSON.parse(localStorage.getItem('initData'))
+            }
+            if (localStorage.getItem('drawList')) {
+                this.target = JSON.parse(localStorage.getItem('drawList'))
+            }
+
+        },
+        methods: {
+            start() {
+                if (this.status) {
+                    if (this.index != -1) {
+                        this.arrList.splice(this.index, 1)
+                        localStorage.setItem('initData', JSON.stringify(this.arrList))
+                    }
+                    this.shuffle()
+                    setTimeout(() => {
+                        this.recursive()
+                    }, 800)
+                    this.status = !this.status
+                }
+            },
+            randomIndex: function() {
+                this.index = Math.floor(Math.random() * this.arrList.length)
+                return this.index
+            },
+            remove: function() {
+                this.arrList.splice(this.randomIndex(), 1)
+            },
+            shuffle: function() {
+                this.arrList = _.shuffle(this.arrList)
+            },
+            recursive() {
+                clearTimeout(this.timer)
+                this.timer = setTimeout(() => {
+                    this.value = this.arrList[this.randomIndex()]
+                    this.recursive()
+                }, 200)
+            },
+            end() {
+                if (this.status) {
+                    return
+                }
+                clearTimeout(this.timer)
+                this.index = this.randomIndex()
+                this.value = this.arrList[this.index]
+                this.target.push(this.value)
+                localStorage.setItem('drawList', JSON.stringify(this.target))
+                this.status = !this.status
+            }
+        }
+    })
+</script>
+</body>
+</html>
