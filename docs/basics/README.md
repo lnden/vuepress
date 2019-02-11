@@ -34,7 +34,7 @@ console.log(ary1.indexOf(undefined));//-1
 console.log(ary1.includes(undefined))//true
 ```
 
-### Math.pow 幂的值
+### Math.pow 求幂运算符
 
 ```
 Math.pow(x,y)
@@ -47,6 +47,19 @@ Math.pow(2,4) == 2**4
 ```
 
 ## ES2017[ES8]新特性
+
+### Promise
+
+### Object.values()
+
+### Object.entries()
+
+### Object.getOwnPropertyDescriptions()
+
+### padStart 和 padEnd()
+
+### 结尾逗号，数组定义和函数参数列表
+
 
 ## ES2018[ES9]新特性
 
@@ -73,13 +86,13 @@ server.listen(port)
 ```
 finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
 
-### async/await
+### 异步迭代 async/await
 
 
 
-### rest/spread属性
+### rest/spread属性 添加了对象的方式
 
-### 解构赋值
+### 正则表达式反向断言（lookbehind）
 
 ### RegExp相关功能
 
