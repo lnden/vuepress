@@ -34,7 +34,9 @@ function getBasics(title) {
             collapsable: false,
             children: [
                 '',
+                'ECMAScript',
                 'HTML5',
+                'CSS3',
                 'demo',
                 'video'
             ]
