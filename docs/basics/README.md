@@ -215,10 +215,67 @@ server.listen(port)
 finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
 
 ### 异步迭代 async/await
+```
+let count = () => {
+    return new Promise((resolve,reject) => {
+        setTimeout(()=>{
+            resolve(100)
+        },1000)
+    })
+}
 
+let list = () => {
+    return new Promise((resolve,reject) => {
+        setTimeout(()=>{
+            resolve([1,2,3])
+        },1000)
+    })
+}
+
+let getList = async () => {
+    let c = await count();
+    console.log('async');
+    let l = await list();
+    return { count:c,list:l }
+}
+
+console.time('start');
+getList().then(res=>{
+    console.log(res)
+})
+.catch(err=>{
+    console.timeEnd('start');
+    console.log(err)
+})
+.finally(()=>{
+    console.log('finally');
+})
+
+//执行结果
+    async
+    {count: 100, list: [1, 2, 3]}
+    finally
+```
 
 
 ### rest/spread属性 添加了对象的方式
+在ES6中引入了`...`作用主要是 Rest参数和扩展运算符，作用对象仅用于数组
+
+1.将一个未知数的参数表示一个数组
+```
+function restParam(p1,p2,...p3){
+    // p1 = 1
+    // p2 = 2
+    // p3 = [3, 4, 5]
+}
+restParam(1,2,3,4,5);
+```
+2.扩展运算符
+```
+const values = [99,100,-1,48,16]
+console.log(Math.max(...values))    // → 100
+```
+
 
 ### 正则表达式反向断言（lookbehind）
 
