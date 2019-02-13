@@ -1,6 +1,8 @@
 # ECMAScript国际标准
 
-## ES2015[ES6]新特性
+[阮一峰ES6入门](http://es6.ruanyifeng.com/)
+
+[^_^]: # (ES2015[ES6]新特性)
 
 ## ES2016[ES7]新特性
 
@@ -13,17 +15,15 @@ value是要检索的值，index是要检索的位置值
 
 ```js
 const arr = ['a','b','c','d']
-arr.includes('a')
-// → true
+arr.includes('a')           // → true
 
 const num = [2,4,6,8,NaN]
-num.includes(NaN)
-// → true
+num.includes(NaN)           // → true
 ```
 
 该方法替换indexOf()出现,indexOf检索值为空返回-1,存在则返回对应下标。
 
-1.如果数组中有NaN,又刚好需要判断是否有存在NaN,这个时候indexOf是无法判断的
+- 如果数组中有NaN,又刚好需要判断是否有存在NaN,这个时候indexOf是无法判断的
 
 ```js
 var ary1 = [NaN];
@@ -31,18 +31,19 @@ console.log(ary1.indexOf(NaN))      //-1
 console.log(ary1.includes(NaN))     //true
 ```
 
-2.当数组有空值的时候，incldes会认为控制是undefined,而indexOf不会
+- 当数组有空值的时候，incldes会认为控制是undefined,而indexOf不会
 
 ```js
 var ary1 = new Array(3);
 console.log(ary1.indexOf(undefined));       //-1
 console.log(ary1.includes(undefined))       //true
+
+NaN===NaN            // → false
+NaN.includes(NaN)    // → true
+
 ```
 
-3.NaN===NaN     // → false
-NaN.incldes(NaN)    // → true
-
-4.includes()还有一个怪异的点需要指出，在判断 +0 与 -0 时，被认为是相同的。
+- includes()还有一个怪异的点需要指出，在判断 +0 与 -0 时，被认为是相同的。
 
 在这一点上，indexOf()与includes()的处理结果是一样的，前者同样会返回 +0 的索引值。
 
@@ -64,6 +65,11 @@ Math.pow(2,4) == 2**4
 ```
 
 模仿其他语言 python/ruby
+
+
+[^_^]: # (分割线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)
+
+
 
 ## ES2017[ES8]新特性
 
@@ -119,9 +125,9 @@ getJSON('/login.json').then(
 Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
 ```js
 getJSON('/posts.json').then(
-    posts => //... do something
+    posts =>    //... do something
 ).catch(
-    error = > //... console.log(error)
+    error = >   //... console.log(error)
 )
 ```
 
@@ -192,11 +198,6 @@ promise.then(null,(s)=>{
 })
 //出错了
 ```
-
-
-
-
-
 ### Object.entries()
 - 如果一个对象是具有键值对的数据结构，则每一个键值对都将会编译成一个具有两个元素的数组，这些数组最终会放到一个数组中，返回一个二维数组。
 - 简言之，该防范会将某个对象的可枚举属性与值按照二维数组的方式返回。
@@ -346,6 +347,10 @@ function test(a,b,){
 test(1,2,)
 ```
 
+
+[^_^]: # (分割线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)
+
+
 ## ES2018[ES9]新特性
 
 ### Promise.finally()
@@ -412,9 +417,9 @@ getList().then(res=>{
 })
 
 //执行结果
-    async
-    {count: 100, list: [1, 2, 3]}
-    finally
+async
+{count: 100, list: [1, 2, 3]}
+finally
 ```
 
 
@@ -438,13 +443,118 @@ restParam(1,2,3,4,5);
 const values = [99,100,-1,48,16]
 console.log(Math.max(...values))    // → 100
 ```
+3.合并对象
+```js
+const obj1 = {name:'lily',age:26}
+const obj2 = {like:'sleep',name:'Tom'}
+const newObj = {...obj1,...obj2}
+```
+
+### 正则表达式反向断言
+
+在ES9中可以允许反向断言：
+```js
+const reLookahead = /(?<=\D)[\d\.]+/;
+match = reLookahead.exec('$123.45');
+console.log(match[0]); // 123.45
+```
+使用?<=进行反向断言，可以使用反向断言获取货币的价格，而忽略货币符号。
+
+- **肯定方向断言**
+
+上面的案例为肯定反向断言，也就是说\D这个条件必须存在，若是:
+```js
+const reLookahead = /(?<=\D)[\d\.]+/;
+match1 = reLookahead.exec('123.45'),
+match2 = reLookahead.exec('12345');
+console.log(match1[0]); // 45
+console.log(match2);  // null
+```
+可以看到match1匹配到的是45,这是由于在123前面没有任何符合\D的匹配内容，它会一直找到符合\D的内容，也就是.然后返回后面的内容。
+而若是没有满足前面肯定反向断言的条件的话，则返回null.
+
+### 正则表达式dotAll模式
+正则表达式中点.匹配除回车外的任何单字符，标记s改变这种行为，允许行终止符的出现:
+
+```js
+/hello.world/.test('hello\nworld');         // false
+
+/hello.world/s.test('hello\nworld');        // true
+
+console.log(/hello.world/s.test(`hello
+world`))                                    // true
+```
+
+### 正则表达式命名捕获组
+Javascript正则表达式中使用exec()匹配能够返回一个对象，一个包含匹配字符串的类数组。
+
+```js
+const reDate = /(\d{4})-(\d{2})-(\d{2})/,
+const match = reDate.exec('2018-08-06');
+console.log(match);
+// [2018-08-06, 2018, 08, 06]
+
+// 这样就可以直接用索引来获取年月日：
+match[1] // 2018
+match[2] // 08
+match[3] // 06
+```
+上面的案例，若是改变正则表达式的结构就有可能改变匹配对象的索引。
+
+如进行如下修改
+
+```js
+const reDate = /(\d{2})-(\d{2})-(\d{4})/,
+const match = reDate.exec('2018-08-06');
+console.log(match);
+// [2018-08-06, 08, 06, 2018]
+
+// 但此时年月日的索引就改变了
+match[3] // 2018
+match[1] // 08
+match[2] // 06
+```
+
+可以看到上面写法的弊端，因此在ES9中允许命名捕获组使用符号`?<name>`,如下：
+
+```js
+const reDate = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const match = reDate.exec('2018-08-06');
+console.log(match);
+// [2018-08-06, 08, 06, 2018, groups: {day: 06, month: 08, year: 2018}]
+
+//此时可以使用groups对象来获取年月日
+match.groups.year // 2018
+match.groups.month // 08
+match.groups.day  // 06
+```
+
+命名捕获组的写法相当于是把每个匹配到的捕获组都定义了一个名字，然后存储到返回值的groups属性中。
+
+- **结合replace()**
+
+命名捕获也可以使用在replace()方法中。例如将日期转换为美国的 MM-DD-YYYY 格式：
+
+```js
+const reDate = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const d = '2018-08-06';
+const USADate = d.replace(reDate, '$<month>-$<day>-$<year>');
+console.log(USADate);
+// 08-06-2018
+```
+
+还可以将中文名的姓和名调换：
+
+```js
+const reName = /(?<sur>[a-zA-Z]+)-(?<name>[a-zA-Z]+)/;
+const Chinese = 'Lin-DaiDai';
+const USA = Chinese.replace(reName, '$<name>-$<sur>');
+console.log(USA);
+// DaiDai-Lin
+```
 
 
-### 正则表达式反向断言（lookbehind）
-
-### RegExp相关功能
-
-
+[^_^]: # (分割线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)
 
 
 ## ES2019[ES10]新特性
@@ -456,13 +566,25 @@ console.log(Math.max(...values))    // → 100
 ### Array #{sort}
 在以前，sort 函数中，10个以上元素的数组 V8 使用不稳定的QuickSort（快排。现在，使用稳定的TimSort算法。）
 
-### try catch
+### Function #{toString}
+Function.prototype.toString()现在返回精确字符，包括空格和注释。
+```js
+function /* a comment */ foo () {}
+
+//Previously
+foo.toString()      // → 'function foo() {}'
+
+// Now
+foo.toString()      // → 'function /* acomment */ foo () {}'
+```
+
+### Try catch
 现在try {} catch {} 有了更加简便的方法，变成了可选型。
-```
+```js
+//Previously
 try{} catch(e){}
-```
-now
-```
+
+// Now
 try{
     throw new Error('The flux capacitor is overloaded')
 } catch {   // ← Look mom, no binding!
@@ -476,15 +598,13 @@ try{
 
 ```js
 const array = [1,[2,[3]]];
-array.flat()
-// → [1,2,[3]]
-array.flat(2)
-// → [1,2,3]
+
+array.flat()        // → [1,2,[3]]
+array.flat(2)       // → [1,2,3]
 ```
 
 ```js
-[1,2,3,4].flatMap((x)=>[x,x*2])
-// → [2,4,3,6,4,8]
+[1,2,3,4].flatMap((x) => [x,x*2])         // → [2,4,3,6,4,8]
 ```
 
 ### Object.fromEntries
@@ -505,27 +625,24 @@ const result = Object.fromEntries(entries);
 
 ```js
 const string = '  hello word  ';
-string.trimStart();
-// → 'hello word  '
+string.trimStart();         // → 'hello word  '
 
-string.trimEnd();
-// → '  hello word'
+string.trimEnd();           // → '  hello word'
 
-string.trim();
-// → 'hello word'
+string.trim();              // → 'hello word'
 ```
 
 ### Symbol.prototype.description
 
 通过工厂函数Symbol（）创建符号时，您可以选择通过参数提供字符串作为描述：
 
-const sym = Symbol('The description');
+&emsp;&emsp;const sym = Symbol('The description');
 
-以前，访问描述的唯一方法是将符号转换为字符串：
+&emsp;&emsp;以前，访问描述的唯一方法是将符号转换为字符串：
 
-assert.equal(String(sym), 'Symbol(The description)');
+&emsp;&emsp;assert.equal(String(sym), 'Symbol(The description)');
 
-现在引入了getter Symbol.prototype.description以直接访问描述：
+&emsp;&emsp;现在引入了getter Symbol.prototype.description以直接访问描述：
 
-assert.equal(sym.description, 'The description');
+&emsp;&emsp;assert.equal(sym.description, 'The description');
 
