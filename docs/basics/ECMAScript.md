@@ -74,10 +74,126 @@ Promise对象有以下两个特点
 
 - 对象的状态不受外界影响，pending(进行中)、fulfilled(已成功)和rejected(已失败)，只有异步操作的结果，可以决定当前是哪一种状态
 - 一旦状态改变，就不会再变，任何时候都可以得到这个结果。只有两种可能：从pending变为fulfilled和从pending变为rejected。
+```js
+const getJSON = function(url){
+    const promise  = new Promise((resolve,reject)=>{
+        const handler = () => {
+            if(this.readyState !==4 ){
+                return
+            }
+            if(this.state === 200){
+                resolve(this.response);
+            }else{
+                reject(new Error(this.statusText))
+            }
+        };
 
-::: tip Promise.prototype.then()
+        const client = new XMLHttpRequest();
+        client.open('GET',url);
+        client.onreadystatechange = handler;
+        client.responseType = 'json';
+        client.setRequestHeader('Accept','application/json');
+        client.send()
+    })
+
+    return promise;
+}
+```
+
+- **Promise.prototype.then()**
+
 Promise实例具有then方法，也就是说，then方法是定义在原型对象Promise.prototype上的。then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
-:::
+
+
+```js
+getJSON('/login.json').then(
+    res => getJSON(res.commentURL)
+).then(
+    comments => console.log("resoved：",comments),
+    err => console.log("rejected：",err)
+)
+```
+
+- **Promise.prototype.catch()**
+
+Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
+```js
+getJSON('/posts.json').then(
+    posts => //... do something
+).catch(
+    error = > //... console.log(error)
+)
+```
+
+- **Promise.prototype.finally()**
+
+finally方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。该方法是 ES2018 引入标准的。
+```js
+promise
+    .then( result => {...} )
+    .catch( error => {...} )
+    .finally( () => {...} )
+```
+上面代码中，不管promise最后的状态，在执行完then或catch指定的回调函数以后，都会执行finally方法指定的回调函数。
+
+- **Promise.all()**
+
+Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```js
+const promise = Promise.all([p1,p2,p3])
+```
+Promise.all分成两种情况
+
+1.只有p1、p2、p3的状态都变成fulfilled，promise的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给promise的回调函数
+
+2.只要p1、p2、p3之中有一个被rejected，promise的状态就变成rejected，此时第一个reject的实例的返回值，会传递给promise的回调函数。
+
+- **Promise.race()**
+
+Promise.race方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```js
+const promise = Promise.race([p1,p2,p3])
+```
+上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，promise的状态就跟着改变。那个率先改变的Promise实例的返回值，就传递给promise的回调函数。
+```js
+const promise = new Promise.race([
+    fetach('/resource-that-may-take-a-white'),
+    new Promise((resolve,reject){
+        seTimeout(()=>{
+            new Error('request timeout')
+        },5000)
+    })
+])
+```
+上面代码中，如果 5 秒之内fetch方法无法返回结果，变量p的状态就会变为rejected，从而触发catch方法指定的回调函数。
+
+
+- **Promise.resolve()**
+
+有时需要将现有对象转为 Promise 对象，Promise.resolve方法就起到这个作用。
+```js
+Promise.resolve('foo')
+//等同于
+new Promise(resolve => resolve('foo'))
+```
+
+- **Promise.reject()**
+
+Promise.reject(reason)方法也会返回一个新的 Promise 实例，该实例的状态为rejected。
+```js
+const promise = Promise.reject('出错了');
+//等同于
+const promise = new Promise((resolve,reject) => reject('出错了'));
+
+promise.then(null,(s)=>{
+    console.log(s)
+})
+//出错了
+```
+
+
 
 
 
@@ -113,7 +229,7 @@ Object.values({one:1,two:2})        // → [1,2]
 Object.values({3:'a',4:'b',1:'c'})  // → ['c','a','b']
 ```
 
-### 字符串填充 padStart 和 padEnd()
+### padStart/padEnd() 字符串填充
 padStart函数通过填充字符串的首部来保证字符串达到固定的长度，反之，padEnd是填充字符串的尾部来保证字符串的长度的。
 
 该方法提供了两个参数：字符串目标长度和填充字段，其中第二个参数可以不填，默认情况下使用空格填充。
@@ -181,7 +297,9 @@ Object.getOwnPropertyDescriptors(obj)
 }
 ```
 
-方法还提供了第二个参数，用来获取指定属性的属性描述符
+Object.getOwnPropertyDescriptor 方法还提供了第二个参数，用来获取指定属性的属性描述符
+
+**[差一个负数s]**
 
 ```js
 let obj = {
@@ -195,7 +313,7 @@ let obj = {
     }
 }
 
-Object.getOwnPropertyDescriptors(obj,'id')
+Object.getOwnPropertyDescriptor(obj,'id')
 
 {
     id: {
@@ -255,7 +373,7 @@ server.listen(port)
 ```
 finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
 
-### 异步迭代 async/await
+### async/await 异步迭代
 
 ```js
 let count = () => {
@@ -331,6 +449,27 @@ console.log(Math.max(...values))    // → 100
 
 ## ES2019[ES10]新特性
 
+### JSON.stringify
+
+更加友好的 JSON.stringify （修复了对于一些超出范围的 unicode 展示错误的问题。）
+
+### Array #{sort}
+在以前，sort 函数中，10个以上元素的数组 V8 使用不稳定的QuickSort（快排。现在，使用稳定的TimSort算法。）
+
+### try catch
+现在try {} catch {} 有了更加简便的方法，变成了可选型。
+```
+try{} catch(e){}
+```
+now
+```
+try{
+    throw new Error('The flux capacitor is overloaded')
+} catch {   // ← Look mom, no binding!
+    handleException()
+}
+```
+
 ### Array #{flat,flatMap}
 
 数组降维，递归地将数组展平到指定的深度，默认为1。
@@ -377,3 +516,16 @@ string.trim();
 ```
 
 ### Symbol.prototype.description
+
+通过工厂函数Symbol（）创建符号时，您可以选择通过参数提供字符串作为描述：
+
+const sym = Symbol('The description');
+
+以前，访问描述的唯一方法是将符号转换为字符串：
+
+assert.equal(String(sym), 'Symbol(The description)');
+
+现在引入了getter Symbol.prototype.description以直接访问描述：
+
+assert.equal(sym.description, 'The description');
+
