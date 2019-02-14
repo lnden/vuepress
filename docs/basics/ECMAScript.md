@@ -216,9 +216,62 @@ for(let item of set.entries()){
 ```
 
 
-
-
 ### class类
+
+基本上，ES6 的class可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。
+```js
+//Previously
+function Point(x,y){
+    this.x = x;
+    this.y = y;
+}
+Point.prototype.toString = function(){
+    return '('+this.x+','+this.y+')'
+}
+let p = new Point(1,2)
+
+//Now
+class Point {
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+    }
+    toString(){
+        return '('+this.x+','+this.y+')'
+    }
+}
+let p = new Point(1,2)
+
+
+point.hasOwnProperty('x') // true
+point.hasOwnProperty('y') // true
+point.hasOwnProperty('toString') // false
+point.__proto__.hasOwnProperty('toString') // true
+```
+上面代码中，x和y都是实例对象point自身的属性（因为定义在this变量上），所以hasOwnProperty方法返回true，而toString是原型对象的属性（因为定义在Point类上），所以hasOwnProperty方法返回false。这些都与 ES5 的行为保持一致。
+
+
+定义了一个空的类Point，JavaScript 引擎会自动为它添加一个空的constructor方法。
+```js
+class Point { }
+//等同于
+class Point {
+    constructor(){ }
+}
+```
+- **Class表达式**
+与函数一样，类也可以使用表达式的形式定义
+```js
+const MyClass = class Me {
+    getClassName(){
+        return Me.name
+    }
+}
+let inst = new MyClass();
+inst.getClassName()             // Me
+Me.name
+```
+
 
 ### 数据类型的扩展
 
