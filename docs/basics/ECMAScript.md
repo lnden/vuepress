@@ -262,7 +262,6 @@ console.log(ary1.includes(undefined))       //true
 
 NaN===NaN            // → false
 NaN.includes(NaN)    // → true
-
 ```
 
 - includes()还有一个怪异的点需要指出，在判断 +0 与 -0 时，被认为是相同的。
@@ -284,6 +283,20 @@ x**y ==> Math.pow(x,y)
 
 Math.pow(2,4) == 2**4
 // → true
+```
+使用自定义的递归函数进行指数运算
+```js
+function calculateExponent(base,exponent){
+    if(exponent ===1 ){
+        return base
+    }else{
+        return base * calculateExponent(base,exponent - 1);
+    }
+}
+
+console.log(calculateExponent(2,10))    //  输出  1024    用时0.050048828125ms
+console.log(Math.pow(2,10))             //  输出  1024    用时0.004882815125ms
+console.log(2**10)                      //  输出  1024    用时0.002056640625ms
 ```
 
 模仿其他语言 python/ruby
@@ -599,9 +612,6 @@ server.listen(port)
     })
 ```
 finally方法的回调函数不接受任何参数，这意味着没有办法知道，前面的 Promise 状态到底是fulfilled还是rejected。这表明，finally方法里面的操作，应该是与状态无关的，不依赖于 Promise 的执行结果。
-
-### async/await 异步迭代
-
 ```js
 let count = () => {
     return new Promise((resolve,reject) => {
@@ -642,6 +652,47 @@ getList().then(res=>{
 async
 {count: 100, list: [1, 2, 3]}
 finally
+```
+
+### async/await 异步迭代
+```js
+login(userName){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            resolve('1001')
+        },600)
+    })
+}
+
+getData(userId){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            if(userI === '1001'){
+                resolve('Success')
+            }else{
+                reject('Fail')
+            }
+        },600)
+    })
+}
+
+// No use async/await
+doLogin(userName){
+    this.login(userName).then(this.getData).then(result=>{
+        console.log(result)
+    })
+}
+
+// Use async/await
+async doLogin2(userName){
+    const userId = await this.login(userName);
+    const result = await this.getData(userId)
+    console.log(result)
+}
+
+
+this.doLogin()      //  Success
+this.doLogin2()     //  Success
 ```
 
 
