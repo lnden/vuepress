@@ -3,6 +3,228 @@
 [阮一峰ES6入门](http://es6.ruanyifeng.com/)
 
 [^_^]: # (ES2015[ES6]新特性)
+## ES2015[ES6]新特性
+
+### 变量声明 let/const
+
+1).首先他们都是块级作用于，let代替var出现。
+
+2).var会出现变量提升，let不会。
+
+3).let不允许在相同作用于内，重复声明同一个变量
+
+4).const定义一个常量，一旦声明，就不能改变
+
+5).声明变量的六种方法，var/function/  let/const/import/class
+
+6).浏览器环境顶层对象window对象，node环境顶层对象global
+
+### 模板字符串``
+
+### 变量的解构赋值
+从数组和对象中提取值，对变量进行赋值，这被称为解构
+
+- **数组的结构赋值**
+```js
+// Previously
+let a = 1;
+let b = 2;
+let c = 3;
+
+// Now
+let [a,b,c] = [1,2,3]
+```
+本质上，这种写法属于"模式匹配"，只要等号两边的模式相同，左右的变量就会被赋予对应的值，下面是一些使用嵌套数组进行结构的例子
+```js
+let [foo,[[bar],baz]] = [1,[[2],3]]         // → foo=>1 , bar=>2 , baz=>3
+let [,,third] = ['foo','bar','baz']         // → third=> "baz"
+let [x,,y] = [1,2,3]                        // → x=>1 , y=>3
+let [header,...tail] = [1,2,3,4]            // → head=>1 , tail=>[2,3,4]
+let [x,y,...z] = ['a']                      // → x=>"a" , y=>undefined , z=>[]
+```
+事实上，只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值。
+
+- **对象的结构赋值**
+```js
+let { foo,bar } = { foo:'aaa',bar:'bbb' }
+foo //  'aaa'
+bar //  'bbb'
+```
+对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；而对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+
+```js
+let { bar,foo } = { foo:'aaa',bar:'bbb' }   // foo=>"aaa" , bar=>'bbb'
+let { foo:baz } = { foo:'aaa',bar:'bbb' }   // baz => 'aaa'
+
+```
+- **字符串的解构赋值**
+字符串也可以解构赋值。这是因为此时，字符串被转换成了一个类似数组的对象。
+```js
+const [a,b,c,d,e] = 'hello';
+a // "h"
+b // "e"
+c // "l"
+d // "l"
+e // "o"
+
+let { length:len } = 'hello';
+len // 5
+```
+- **数值和布尔值的结构赋值**
+解构赋值时，如果等号右边是数值和布尔值，则会先转为对象。
+```js
+let { toString:s } = 123
+s === Number.prototype.toString     // true
+
+let { toString:s } = true
+s === Boolean.prototype.toString    // true
+```
+
+- **函数参数的结构赋值**
+```js
+functiuon add([x,y]){
+    return x + y
+}
+add([1,2])
+
+[[1,2],[3,4]].map(([a,b]) => a+b)       // [3,7]
+```
+**注释：**
+
+&emsp;&emsp;解构赋值均可以添加默认参数
+
+### Symbol
+ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。这就是 ES6 引入Symbol的原因。
+
+- **Javascript数据类型**
+1).undefined
+2).null
+3).Boolean
+4).String
+5).Number
+6).Object
+7).Symbol
+
+- **Symbol.for()/Symbol.keyFor()**
+
+```js
+let s1 = Symbol('foo')
+let s2 = Symbol('foo')
+
+s1 === s2       // false
+
+Use Symbol.for
+let s1 = Symbol.for('foo');
+let s2 = Symbol.for('foo');
+s1 === s2       // true
+```
+Symbol.keyFor方法返回一个已登记的 Symbol 类型值的key。
+
+```js
+let s1 = Symbol.for('foo')
+Symbol.keyFor(s1)   // 'foo'
+
+let s2 = Symbol('foo')
+Symbol.keyFor(s2)   // undefined
+```
+Symbol内置了11个属性(暂不学习)
+
+
+### Set和Map数据结构
+- **Set**
+ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+```js
+const set = new Set([1,2,3,4,4])
+[...set]    // [1,2,3,4]
+
+const items = new Set([1,2,3,4,5,5,5,5])
+items.size  // 5
+
+const set = new Set(document.querySelectorAll('div'));
+set.size    // 56
+
+//类似于
+const set = new Set()
+document.querySelectorAll('div').forEach((div)=>{
+    return set.add(div)
+})
+set.size    // 56
+```
+set 去重方法
+```js
+//  Array 去重
+[...new Set(aarray)]
+
+//  String 去重
+[...new Set('ababbc')].join('')
+```
+- **Set实例的属性和方法**
+
+Set 实例属性
+
+```js
+Set.prototype.constructor   //  构造函数，默认就是Set函数
+Set.prototype.size          //  返回Set实例的成员总数
+```
+Set 实例的方法
+```js
+//操作方法
+- add(value)：添加某个值，返回Set结构本身
+- delete(value)：删除某个值，返回一个布尔值，表示删除时会否成功
+- has(value)：返回一个布尔值，表示该值是否为Set的成员
+- clear()：清楚所有成员，没有返回值
+
+s.add(1).add(2).add(2)      //  注意2被加入了两次
+
+s.size                      //  2
+
+s.has(1)                    //  true
+s.has(2)                    //  true
+s.has(3)                    //  false
+
+s.delete(2)
+s.has(2)                    //  false
+```
+```js
+//遍历方法
+- keys()
+- values()
+- entries()
+- forEach()
+
+let set = new Set(['red','green','blue']);
+for(let item of set.keys()){
+    console.log(item)
+}
+// red
+// green
+// blue
+
+for(let item of set.values()){
+    console.log(item)
+}
+// red
+// green
+// blue
+
+for(let item of set.entries()){
+    console.log(item)
+}
+// ['red','red']
+// ['green','green']
+// ['blue','blue']
+```
+
+
+
+
+### class类
+
+### 数据类型的扩展
+
+### Module的语法
+
+### proxy代理
 
 ## ES2016[ES7]新特性
 
@@ -592,6 +814,18 @@ try{
 }
 ```
 
+### String #{trimStart,trimEnd}
+前后的空白符可以指定一边去除。
+
+```js
+const string = '  hello word  ';
+string.trimStart();         // → 'hello word  '
+
+string.trimEnd();           // → '  hello word'
+
+string.trim();              // → 'hello word'
+```
+
 ### Array #{flat,flatMap}
 
 数组降维，递归地将数组展平到指定的深度，默认为1。
@@ -618,18 +852,6 @@ const entries = Object.entries(object);
 
 const result = Object.fromEntries(entries);
 // → { x: 42, y: 50 }
-```
-
-### String #{trimStart,trimEnd}
-前后的空白符可以指定一边去除。
-
-```js
-const string = '  hello word  ';
-string.trimStart();         // → 'hello word  '
-
-string.trimEnd();           // → '  hello word'
-
-string.trim();              // → 'hello word'
 ```
 
 ### Symbol.prototype.description
