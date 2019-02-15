@@ -19,7 +19,19 @@
 
 6).浏览器环境顶层对象window对象，node环境顶层对象global
 
-### 模板字符串``
+### 模板字符串
+```js
+//Previously
+var a = 20;
+var b = 30;
+var string = a+"+"+b+"="+(a+b)      // "20+30=50"
+
+//Now
+const a = 20;
+const b = 30;
+const string = `${a}+${b}=${a+b}`   // "20+30=50"
+```
+使用 `` 将整个字符串包裹起来，而在其中使用 ${} 来包裹一个变量或者一个表达式。
 
 ### 变量的解构赋值
 从数组和对象中提取值，对变量进行赋值，这被称为解构
@@ -94,9 +106,10 @@ add([1,2])
 &emsp;&emsp;解构赋值均可以添加默认参数
 
 ### Symbol
-ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。这就是 ES6 引入Symbol的原因。
+&emsp;&emsp;ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。这就是 ES6 引入Symbol的原因。
 
 - **Javascript数据类型**
+```js
 1).undefined
 2).null
 3).Boolean
@@ -104,7 +117,7 @@ ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比�
 5).Number
 6).Object
 7).Symbol
-
+```
 - **Symbol.for()/Symbol.keyFor()**
 
 ```js
@@ -276,6 +289,63 @@ Me.name
 ### 数据类型的扩展
 
 ### Module的语法
+模块功能主要由两个命令构成：export import
+
+export命令用于规定模块的对外接口，import命令用于输入其它模块提供的功能。
+
+使用export命令输出变量
+```js
+// bad
+export var firstName = 'Michael';
+export var lastName = 'Jackson';
+export var year = 1958;
+
+// good
+var firstName = 'Michael';
+var lastName = 'Jackson';
+var  year = 1958;
+
+export { firstName,lastName,year };
+```
+使用export命令输出函数或类(class)
+```js
+export function multiply(x,y){
+    return x * y;
+}
+```
+- **as关键字**
+```js
+function v1() {...}
+function v2() {...}
+export {
+    v1 as streamV1,
+    v2 as streamV2,
+    v2 as streamLatesVersion
+}
+```
+上面代码使用as关键字，重命名了函数v1和v2的对外接口。重命名后，v2可以用不用的名字输出两次！
+
+- **export输出的接口**
+
+export语句输出的接口，与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。
+```js
+export var foo = 'bar';
+setTimeout(() => foo = 'baz', 500);
+```
+上面代码输出变量foo，值为bar，500 毫秒之后变成baz。
+
+
+- **javascript defer/async**
+
+defer与async的区别是：
+
+&emsp;&emsp;defer要等到整个页面在内存中正常渲染结束(DOM结构生成，其它脚本执行完成)，才会执行；
+
+&emsp;&emsp;async一旦下载完，渲染引擎就会中断渲染，执行这个脚本以后，在继续渲染；
+
+&emsp;&emsp;一句话，defer是"渲染完再执行"，async是"下载完就执行"
+
+&emsp;&emsp;如果多个defer脚本，会按照它们在页面出现的顺序加载，而多个async脚本是不能保证加载顺序的。
 
 ### proxy代理
 
