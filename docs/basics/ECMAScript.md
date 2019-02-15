@@ -288,6 +288,180 @@ Me.name
 
 ### 数据类型的扩展
 
+- **字符串的扩展**
+
+ES6为字符串添加了编辑器接口，是的字符串可以被for..of 循环遍历
+```js
+for(let codePoint of 'foo'){
+    console.log(codePoint)
+}
+
+// "f"
+// "o"
+// "o"
+```
+除了遍历字符串，这个遍历器最大的优点是可以识别大于0xFFFF的码点，传统的for循环无法识别这样的码点。
+```js
+let text = String.fromCodePoint(0x20BB7);
+for(let i = 0; i< text.length; i++){
+    console.log(text[i])
+}
+// " "
+// " "
+
+for(let i of text){
+    console.log(i)
+}
+// "𠮷"
+
+```
+传统上只有indexOf方法，又新增如下【startsWith、endsWith、includes、repeat】
+```js
+let sx = 'Hello World!';
+
+sx.staetsWith('Hello');     //  true
+sx.endsWith('!');           //  true
+sx.includes('o');           //  true
+
+//还可以添加参数
+sx.startsWith('World',6)    //  true
+sx.endsWith('Hello',5)      //  true
+sx.incldes('Hello',6)       //  false
+
+'sx'.repeat(3)              //  "xxx"
+'hello'.repeat(2)           //  "hellohello"
+'na'.repeat(0)              //  ""
+'na'.repeat(2.9)            //  "nana" (取整)
+```
+padStart() / padEnd() ES2017 引入了字符串补全长度的功能。如果某个字符串不够指定长度，会在头部或尾部补全。padStart()用于头部补全，padEnd()用于尾部补全。
+
+- **数值的扩展**
+
+ES6提供了二进制和八进制数值的新的写法，分别用前缀0b(或0B)和0o(或0O)表示
+
+ES6在Number对象新提供了Number.isFinite(),Number.isNaN()两个方法
+
+Number.isFinite()用来检查一个数值是否为有限的（finite），即不是Infinity。
+```js
+Number.isFinite(15)     //  true
+Number.isFinite(0.8)    //  true
+Number.isFinite(NaN)    //  false
+Number.isFinite('15')   //  false
+```
+Number.isNaN()用来检查一个值是否为NaN。
+```js
+Number.isNaN(NaN)       //  true
+Number.isNaN(15)        //  false
+Number.isNaN('15')      //  false
+Number.isNaN(true)      //  false
+```
+ES6 将全局方法parseInt()和parseFloat()，移植到Number对象上面，行为完全保持不变。
+```js
+//Previously es5
+parseInt('12.34')       //  12
+parseFloat('123.45#')   //  123.45
+
+//Now es6
+Number.parseInt('12.34')        //  12
+Number.parseFloat('123.45#')    //  123.45
+```
+这样做的目的，是逐步减少全局性方法，是的语言逐步模块化
+```js
+Number.parseInt === parseInt        //  true
+Number.parseFloat === parseFloat    //  true
+```
+
+- **Math对象的扩展**
+
+ES6 在 Math 对象上新增了 17 个与数学相关的方法。所有这些方法都是静态方法，只能在 Math 对象上调用
+
+Math.trunc()
+
+Math.trunc方法用于去除一个数的小数部分，返回整数部分
+```js
+Math.trunc(4.1) // 4
+Math.trunc(4.9) // 4
+Math.trunc(-4.1) // -4
+Math.trunc(-4.9) // -4
+Math.trunc(-0.1234) // -0
+```
+对于非数值，Math.trunc内部使用Number方法将其先转为数值。
+```js
+Math.trunc('123.456') // 123
+Math.trunc(true) //1
+Math.trunc(false) // 0
+Math.trunc(null) // 0
+```
+- **函数的扩展**
+
+1.ES6之前，不能直接为函数的参数指定默认值，只能采用变通的方法。
+```js
+function log(x,y){
+    y = y || 'World';
+    console.log(x,y)
+}
+log('Hello')            //  Hello World
+log('Hello','China')    //  Hello China
+log('Hello','')         //  Hello World
+
+```
+ES6允许为函数的参数设置默认值，即直接写在参数定义的后面
+```js
+function log(x,y='World'){
+    console.log('x,y')
+}
+log('Hello')            //  Hello World
+log('Hello','China')    //  Hello China
+log('Hello','')         //  Hello World
+```
+2.ES6 引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+```js
+function add(...values){
+    let sum = 0;
+    for(var val of values){
+        sum += val
+    }
+    return sum
+}
+add(2,5,3)      //  10
+```
+&emsp;&emsp;arguments对象不是数组，而是一个类似数组的对象。所以为了使用数组的方法，必须使用Array.prototype.slice.call先将其转为数组。reset参数就不存在这个问题，他就是一个真正的数组，数组特有的方法都可以使用。
+```js
+// arguments变量的写法
+function sortNumbers(){
+    return Array.prototype.slice.call(arguments).sort();
+}
+
+// rest参数的写法
+const sortNumbers = (...numbers) => numbers.sort()
+```
+3.箭头函数
+
+ES6 允许使用"箭头"(=>)定义函数
+```
+var f = v => v;
+//等同于
+var f = function(v){
+    return v
+}
+
+//如果箭头函数不需要参数或需要多个参数，就使用一个圆括号代表参数部分。
+var f = () => 5;
+//等同于
+var f = function() { return 5 }
+
+var sum = (sum1,num2) => num1 + num2;
+var sum = (sum1,sum2) => { return num1 + num2 }
+var sum = function(num1,num2){
+    return num1 + num2
+}
+```
+**使用注意点**
+1).函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+2).不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+3).不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用rest参数代替。
+4).不可以使用yield命令，因此箭头函数不能用作Generator函数。
+
 ### Module的语法
 
 模块功能主要由两个命令构成：export import
@@ -381,6 +555,44 @@ customNmae()    //  'foo'
 ```
 
 ### proxy代理
+```js
+let obj = {
+    name: '元泡泡',
+    age: 28
+}
+
+let p = new Proxy(obj,{
+    get: function(target,key){
+        if(key in target){
+            return target[key]
+        }else{
+            console.log('对象没有此属性')
+        }
+    },
+    set: function(target,key,value){
+        if(key =='age' & value <1){
+            console.log('参数错误')
+        }else{
+            target[key] = value;
+        }
+    }
+})
+p.age = -1;
+p.age = 22;
+console.log(p.age)
+console.log(p.name)
+```
+Proxy代码有如下方法：
+
+get：读取
+
+set：修改
+
+has：判断对象是否有该属性
+
+construct：构造函数
+
+deleteProperty:删除操作
 
 ## ES2016[ES7]新特性
 
