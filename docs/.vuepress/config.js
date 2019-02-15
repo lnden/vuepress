@@ -10,14 +10,14 @@ module.exports = {
             { text: 'FE-基础',  link: '/basics/' },
             { text: 'FE-框架',  link: '/frame/' },
             { text: 'FE-面试',  link: '/interview/' },
-            { text: '年终总结', link: '/summary/' },
+            { text: 'Planning', link: '/summary/' },
             { text: 'GitHub',  link: 'https://github.com/lnden' },
         ],
         sidebar:{
             '/basics/': getBasics('FE-基础'),
             '/frame/': getFrame('FE-框架'),
             '/interview/': getInterview('FE-面试'),
-            '/summary/': getSummary('年终总结')
+            '/summary/': getSummary('Planning')
         },
         sidebarDepth:2,
         lastUpdated: '上次更新',
