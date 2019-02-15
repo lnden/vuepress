@@ -289,11 +289,13 @@ Me.name
 ### 数据类型的扩展
 
 ### Module的语法
+
 模块功能主要由两个命令构成：export import
+
+**1.使用export命令输出变量**
 
 export命令用于规定模块的对外接口，import命令用于输入其它模块提供的功能。
 
-使用export命令输出变量
 ```js
 // bad
 export var firstName = 'Michael';
@@ -346,6 +348,37 @@ defer与async的区别是：
 &emsp;&emsp;一句话，defer是"渲染完再执行"，async是"下载完就执行"
 
 &emsp;&emsp;如果多个defer脚本，会按照它们在页面出现的顺序加载，而多个async脚本是不能保证加载顺序的。
+
+**2.使用import命令加载模块**
+
+使用export命令定义了模块的对外接口以后，其他 JS 文件就可以通过import命令加载这个模块。
+```js
+import { firstName,lastName,year } from './profile.js'
+function setName(element){
+    element.textContent = firstName + '' +lastName;
+}
+```
+- **as关键字**
+如果想为输入的变量重新取一个名字，import命令要用as关键字，将输入的变量重命名
+```js
+import { lastName as surname } from './profile.js'
+```
+另一个需要注意的是import命令输入的变量都是只读的，因为他的本质是输入接口。也就是说，不允许在加载模块的脚本里面，改写接口。
+```js
+import { a } from './xxx.js'
+a = {};             // Syntax Error : 'a' is read-only;
+a.foo = 'hello'     // 可以赋值
+```
+**3.export default命令**
+为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到export default命令，为模块指定默认输出。
+```js
+export default function(){
+    console.log('foo')
+}
+
+import customName from './export-default'
+customNmae()    //  'foo'
+```
 
 ### proxy代理
 
