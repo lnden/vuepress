@@ -69,7 +69,11 @@ function getInterview(title) {
             title,
             collapsable: false,
             children: [
-                ''
+                '',
+                'javascript',
+                'html',
+                'css',
+                'vue'
             ]
         }
     ]
