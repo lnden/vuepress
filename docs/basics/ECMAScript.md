@@ -876,7 +876,7 @@ Object.getOwnPropertyDescriptors(obj)
 {
     gender: {
         configurable: true,
-        enu,erable: true,
+        enumerable: true,
         get: f gender(),
         set: undefined
     },

@@ -9,7 +9,7 @@ module.exports = {
         nav: [
             { text: 'FE-基础',  link: '/basics/' },
             { text: 'FE-框架',  link: '/frame/' },
-            { text: 'FE-面试',  link: '/interview/' },
+            { text: 'Interview',  link: '/interview/' },
             { text: 'Planning', link: '/summary/' },
             { text: 'GitHub',  link: 'https://github.com/lnden' },
         ],
