@@ -7,17 +7,17 @@ module.exports = {
     themeConfig: {
         navbar:true,
         nav: [
-            { text: 'FE-基础',  link: '/basics/' },
-            { text: 'FE-框架',  link: '/frame/' },
+            { text: 'Basics',  link: '/basics/' },
+            { text: 'Frame',  link: '/frame/' },
             { text: 'Interview',  link: '/interview/' },
-            { text: 'Planning', link: '/summary/' },
+            { text: 'Planning', link: '/planning/' },
             { text: 'GitHub',  link: 'https://github.com/lnden' },
         ],
         sidebar:{
             '/basics/': getBasics('FE-基础'),
             '/frame/': getFrame('FE-框架'),
             '/interview/': getInterview('FE-面试'),
-            '/summary/': getSummary('Planning')
+            '/planning/': getSummary('Planning')
         },
         sidebarDepth:2,
         lastUpdated: '上次更新',
