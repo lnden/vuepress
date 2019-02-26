@@ -559,12 +559,94 @@ Cat.prototype.constructor = Cat;
 var cat1 = new Cat('大毛','黄色');
 alert(cat1.species);        //  动物
 ```
+与前一种方法相比，这样做的优点是效率比较高（不用执行和建立Animal的实例了），比较省内存。缺点是 Cat.prototype和Animal.prototype现在指向了同一个对象，那么任何对Cat.prototype的修改，都会反映到Animal.prototype。
 
+所以，上面这一段代码其实是有问题的。请看第二行
+
+```js
+Cat.prototype.constructor = Cat;
+```
+这一句实际上把Animal.prototype对象的constructor属性也改掉了！
+
+```js
+alert(Animal.prototype.constructor); // Cat
+```
 
 **四、利用空对象作为中介**
 
+由于"直接继承prototype"存在上述的缺点，所以就有第四种方法，利用一个空对象作为中介
+
+```js
+function Animal(){ }
+Animal.prototype.species = '动物';
+
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+
+var F = function(){}
+F.prototype = Animal.prototype;
+Cat.prototype = new F();
+Cat.prototype.constructor = Cat;
+
+var cat1 = new Cat('大毛','黄色')
+```
+F是空对象，所以几乎不占内存。这时，修改Cat的prototype对象，就不会影响到Animal的prototype对象。
+```js
+alert(Animal.prototype.constructor);    //  Animal
+```
+我们将上面的方法，封装成一个函数，便于使用。
+```js
+function extend(Child,Parent){
+    var F = function(){}
+    F.prototype = Parent.prototype;
+    Child.prototype = new F();
+    Child.prototype.constructor = Child;
+
+    /* 意思是为子对象设一个uber属性，这个属性直接指向父对象的prototype属性。
+       这等于在子对象上打开一条通道，可以直接调用父对象的方法。
+       这一行放在这里，只是为了实现继承的完备性，纯属备用性质。 */
+
+    Child.uber = Parent.prototype;
+}
+
+```
+使用的时候，方法如下
+```js
+extend(Cat,Animal);
+var cat1 = new Cat('大毛','黄色');
+alert(cat1.species)
+```
+
 **五、拷贝继承**
 
+上面是采用prototype对象，实现继承。我们也可以换一种思路，纯粹采用 "拷贝"方法实现继承。简单来，如果把父亲对象的所有属性和方法，拷贝进子对象，不也能够实现继承吗？
+
+首先，还是把Animal的所有不变属性，都放到它的prototype对象上
+```js
+function Animal(){}
+Animal.prototype.species = '动物';
+```
+然后，再写一个函数，实现属性拷贝的目的
+```js
+function extend2(Child,Parent){
+    var p = Parent.prototype;
+    var c = Child.prototype;
+    for(var i in p){
+        console.log(i)
+        c[i] = p[i]
+    }
+    c.uber = p
+}
+```
+这个函数的作用，就是将福对象的prototype对象的属性，一一开呗给Child对象的prototype对象。
+使用的时候，这样写：
+```js
+extend2(Cat,Animal);
+var cat1 = new Cat('大毛','黄色');
+alert(cat1.species);                // 动物
+```
 
 ## 面向对象编程（三）：非构造函数的继承
 
