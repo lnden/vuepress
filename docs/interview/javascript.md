@@ -286,7 +286,7 @@ console.log(object.getNameFunc()())     //  输出  'My Object'
 // object内定义this变量，在匿名函数中使用，环境变量this仍然是object
 ```
 
-## javascript面向对象编程（一）：封装
+## 面向对象编程（一）：封装
 
 **一、生成实例对象的原始模式**
 
@@ -447,5 +447,125 @@ alert('name' in cat1);      //  true
 alert('type' in cat1);      //  true
 ```
 
-## Javascript面向对象编程（二）：继承
+## 面向对象编程（二）：构造函数的继承
+
+**思考题**
+
+怎么才能使 "猫" 继承 "动物" 呢?
+
+```js
+//  一个 "动物" 对象的构造函数
+function Animal(){
+    this.species = '动物'
+}
+
+//  一个 "猫" 对象的构造函数
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+```
+
+**一、构造函数绑定**
+
+第一种方法也是最简单的方法，使用call和apply方法，将对象的构造函数绑定在子对象上，即在子对象构造函数中加一行：
+```js
+function Animal(){
+    this.species = '动物'
+}
+
+function Cat(name,color){
+    Animal.apply(this,arguments);
+    this.name = name;
+    this.color = color;
+}
+var cat1 = new Cat('大毛','黄色');
+alert(cat1.species)                 //  动物
+
+//  也可以换一种写法，在最后使用继承call / apply
+
+function Animal(){
+    this.species = '动物'
+}
+
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+
+var cat1 = new Cat('大毛','黄色');
+Animal.call(cat1);
+console.log(cat1)        //  {name: "大毛", color: "黄色", species: "动物"}
+```
+
+**二、Prototype模式**
+
+第二种方法更常见,使用prototype属性
+
+如果"猫"的prototype对象，指向一个Animal的实例，那么所有的"猫"的实例，就能继承Animal了。
+```js
+function Animal(){
+    this.species = '动物'
+}
+
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+
+//  它相当于完全删除了prototype 对象原先的值，然后赋予一个新值。
+Cat.prototype = new Animal();
+
+//  任何一个prototype对象都有一个constructor属性，指向它的构造函数。
+//  如果没有"Cat.prototype = new Animal();"这一行，Cat.prototype.constructor是指向Cat的；
+//  加了这一行以后，Cat.prototype.constructor指向Animal。
+Cat.prototype.constructor = Cat;
+
+var cat1 = new Cat('大毛','黄色');
+alert(cat1.species);                //  动物
+
+```
+```js
+alert(Cat.prototype.constructor == Animal);     //  true
+```
+更重要的是，每一个实例也有一个constructor属性，默认调用prototype对象的constructor属性。
+```js
+　alert(cat1.constructor == Cat.prototype.constructor);  //  true
+```
+因此，在运行"Cat.prototype = new Animal();"这一行之后，cat1.constructor也指向Animal！
+```js
+alert(cat1.constructor == Animal); // true
+```
+
+**三、直接继承prototype**
+
+第三种方法是对第二种方法的改进。由于Animal对象中，不变的属性都可以直接写入Aimal.prototype 所以，我们可以让Cat()跳过Animal()，直接继承Animal.prototype。
+
+现在，我们先将Animal对象改写
+```js
+function Animal(){}
+Animal.prototype.species = '动物';
+
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+```
+然后，将Cat的prototype对象指向Animal的prototype对象，这样就完成了继承。
+
+```js
+Cat.prototype = Animal.prototype;
+Cat.prototype.constructor = Cat;
+var cat1 = new Cat('大毛','黄色');
+alert(cat1.species);        //  动物
+```
+
+
+**四、利用空对象作为中介**
+
+**五、拷贝继承**
+
+
+## 面向对象编程（三）：非构造函数的继承
+
 
