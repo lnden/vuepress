@@ -411,4 +411,38 @@ alert(cat1.eat())
 ```
 
 这时所有实例的type属性和eat()方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率。
+```js
+alert(cat1.eat == cat2.eat);    //  true
+```
+
+**六、Prototype模式的验证方法**
+
+为了配合prototype属性，javascript定义了一些辅助方法，帮助我们使用它。
+
+6.1 isPrototypeOf()
+
+这个方法用来判断，某个prototype对象和某个实例质检的关系
+
+```js
+alert(Cat.prototype.isPrototypeOf(cat1));   //  true
+alert(Cat.prototype.isPrototypeOf(cat2));   //  true
+```
+
+6.2 hasOwnProperty()
+
+每个实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。
+
+```js
+alert(cat1.hasOwnProperty('name'));     //  true
+alert(cat1.hasOwnProperty('type'));     //  false
+```
+
+6.3 in运算符
+
+in运算符可以用来判断，某个实例是都含有某个属性，不管是不是本地属性
+
+```js
+alert('name' in cat1);      //  true
+alert('type' in cat1);      //  true
+```
 
