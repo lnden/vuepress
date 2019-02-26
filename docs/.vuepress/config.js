@@ -17,7 +17,7 @@ module.exports = {
             '/basics/': getBasics('FE-基础'),
             '/frame/': getFrame('FE-框架'),
             '/interview/': getInterview('FE-面试'),
-            '/planning/': getSummary('Planning')
+            '/planning/': getSummary('Planninag')
         },
         sidebarDepth:2,
         lastUpdated: '上次更新',
