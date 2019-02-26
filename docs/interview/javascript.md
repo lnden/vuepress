@@ -297,7 +297,7 @@ var Cat = {
     color: ''
 }
 ```
-现在，我们需要根据资格原型对象的规格，生成两个实例对象。
+现在，我们需要根据这个原型对象的规格，生成两个实例对象。
 ```js
 var cat1 = {};
     cat1.name = '大毛';
@@ -337,6 +337,7 @@ const Cat = (name,color) => {
 **三、构造函数模式**
 
 为了解决从原型对象生成实例的问题，JavaScript提供了一个构造函数模式。
+
 所谓构造函数，其实就是一个普通的函数，但是内部使用了this变量。对构造函数使用new运算符，就能生成实例，并且this变量会绑定在实例对象上。
 ```js
 function Cat(name,color){
@@ -356,3 +357,58 @@ alert(cat1.color);  //  黄色
 alert(cat1.constructor == Cat);     //  true
 alert(cat2.constructor == Cat);     //  true
 ```
+javascript 还提供了一个 `instanceof` 运算符，验证原型对象与实例对象之间的关系。
+```js
+alert(cat1 instanceof Cat)      //  true
+alert(cat2 instanceof Cat)      //  true
+```
+
+**四、构造函数模式的问题**
+构造函数方法很好用，但是存在一个浪费内存的问题
+
+请看，我们现在为Cat对象添加一个不变的属性 type (种类)，在添加一个方法eat(吃) 。那么，原型对象Cat就变成了下面这样：
+```js
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+    this.type = '猫科动物',
+    this.eat = function(){ alert('吃老鼠'); };
+}
+```
+还是采用同样的方法，生成实例：
+```js
+var cat1 = new Cat('大毛','黄色');
+var cat2 = new Cat('二毛','黑色');
+alert(cat1.type);       // 猫科动物
+alert(cat1.eat());      // 吃老鼠
+```
+表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。那就是对每一个实例对象，type属性和eat方法都是一抹一眼的内容，每一次生成一个实例，都必须要为重复的内容，多占用一些内存。这样既不环保，也缺乏效率。
+```js
+alert(cat1.eat == cat2.eat)     // false
+```
+能不能让 type 属性和eat() 方法在内存中只生成一次，然后所有实例都指向那个内存地址呢？回答是可以的。
+
+
+**五、Prototype模式**
+
+javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。
+
+这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上
+```js
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+Cat.prototype.type = '猫科动物';
+Cat.prototype.eat = function() { alert('吃老鼠') };
+```
+然后，生成实例
+```js
+var cat1 = new Cat('','');
+var cat2 = new Cat('','');
+alert(cat1.type);
+alert(cat1.eat())
+```
+
+这时所有实例的type属性和eat()方法，其实都是同一个内存地址，指向prototype对象，因此就提高了运行效率。
+
