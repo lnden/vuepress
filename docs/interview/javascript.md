@@ -648,6 +648,121 @@ var cat1 = new Cat('大毛','黄色');
 alert(cat1.species);                // 动物
 ```
 
-## 面向对象编程（三）：非构造函数的继承
+## 面向对象编程（三）：非构造函数继承
 
+**一、什么是"非构造函数"的继承**
+```js
+var Chinese = {
+    nation: '中国'
+}
 
+var Doctor = {
+    career: '医生'
+}
+```
+让"医生"去继承"中国人"，也就是说，我怎样才能生成一个"中国医生"的对象？
+
+这里要注意，这两个对象都是普通对象，不是构造函数，无法使用构造函数方法实现"继承"。
+
+**二、object()方法**
+
+json格式的发明人提出了一个object()函数，可以做到这一点。
+```js
+function object(o){
+    function F(){}
+    F.prototype = o;
+    return new F();
+}
+```
+这个object函数，其实只是做一件事，就是把 子对象的prototype属性，指向父对象，从而使得子对象与父对象连在一起
+
+```js
+// 使用的时候，第一步先在父对象的基础上，生成子对象：
+var Doctor = object(Chinese);
+// 然后，再加上子对象本身的属性：
+Doctor.career = '医生';
+// 这时，子对象已经继承了父对象的属性了。
+alert(Doctor.nation)            //  中国
+```
+
+**三、浅拷贝**
+
+除了使用 prototype 链以外，还有另一种思路：把对象的属性，全部拷贝给子对象，也能实现继承。
+
+```js
+var Chinese = {
+    nation: '中国'
+}
+function extendCopy(){
+    var c = {};
+    for(var i in p){
+        c[i] = p[i]
+    }
+    c.uber = p;
+    return c
+}
+```
+
+使用的时候，这样写：
+
+```js
+var Doctor = extendCopy(Chinese);
+Doctor.career = '医生';
+alert(Doctor.nation);               //  中国
+```
+但是，这样的拷贝有一个问题。那就是，如果父对象的属性等于数组或另一个对象，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能。
+
+给Chinese添加一个"出生地"属性，它的值是一个数组
+```js
+Chinese.birthPlaces = ['北京','上海','香港'];
+```
+通过extendCopy()函数，Doctor继承了Chinese
+```js
+var Doctor = extendCopy(Chinese);
+```
+然后，我们为Doctor的"出生地"添加一个城市
+```js
+Doctor.birthPlaces.push('厦门')
+```
+look~look~look!
+```js
+alert(Doctor.birthPlaces);      //  北京，上海，香港，厦门
+alert(Chinese.birthPlaces);     //  北京，上海，香港，厦门
+```
+所以，extendCopy只是拷贝基本类型的数组，我们把这种拷贝叫做"浅拷贝"，这个是早起jQuery实现继承的方式。
+
+**四、深拷贝**
+
+所谓"深拷贝"，就是能够实现真正意义上的数组和对象的拷贝，它的实现并不难，只要递归调用浅拷贝就可以了
+
+```js
+var Chinese = {
+    nation: '中国'
+}
+function deepCopy(p,c={}){
+    for(var i in p){
+        if(typeof p[i] === 'object'){
+            c[i] = (p[i].constructor === Array) ? [] : {}
+            deepCopy(p[i],c[i])
+        }else{
+            c[i] = p[i]
+        }
+    }
+    return c
+}
+```
+
+使用的时候这样写：现在，给父亲对象加一个属性，值为数组。然后，在子对象上修改这个属性
+```js
+
+Chinese.birthPlaces = ['北京','上海','厦门'];
+var Doctor = deepCopy(Chinese[, Doctor]);
+Doctor.birthPlaces.push('厦门');
+```
+现在就不会被影响了
+
+```js
+alert(Doctor.birthPlaces);      //  北京, 上海, 香港, 厦门
+　　
+alert(Chinese.birthPlaces);     //  北京, 上海, 香港
+```
