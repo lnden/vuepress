@@ -766,3 +766,55 @@ alert(Doctor.birthPlaces);      //  北京, 上海, 香港, 厦门
 　　
 alert(Chinese.birthPlaces);     //  北京, 上海, 香港
 ```
+
+## 原生ajax的请求步骤
+
+&emsp;&emsp;1.创建一个ajax对象 var xhr = new XMLHttpRequest()
+
+&emsp;&emsp;2.使用open发送一个请求 xhr.open('GET','url',true) //异步还是同步
+
+&emsp;&emsp;3.设置传递头 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+&emsp;&emsp;4.发送参数 xhr.send(data)
+
+&emsp;&emsp;5.检测状态改变事件 xhr.onreadystatechange = function(){}
+
+```js
+var xhr = new XMLHttpRequest()
+xhr.open('POST', options.url, true)
+xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+xhr.send(params)
+xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+        var status = xhr.status
+        if (status >= 200 && status < 300) {
+            options.success && options.success(JSON.parse(xhr.responseText), xhr.responseXML)
+        } else {
+            options.fail && options.fail(status)
+        }
+    }
+}
+```
+## readyState状态
+
+0: 请求未初始化
+
+1: 服务器连接已建立
+
+2: 请求已接收
+
+3: 请求处理中
+
+4: 请求已完成，且响应已就绪
+
+## status状态
+
+1xx：信息响应类，表示接收到请求并且继续处理
+
+2xx：处理成功响应类，表示动作被成功接收、理解和接受
+
+3xx：重定向响应类，为了完成指定的动作，必须接受进一步处理
+
+4xx：客户端错误，客户请求包含语法错误或者是不能正确执行
+
+5xx：服务端错误，服务器不能正确执行一个正确的请求
