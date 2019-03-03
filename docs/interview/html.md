@@ -32,7 +32,7 @@
   2).给所有的li绑定一个点击事件（操作一次）
 
   3).如果有100个li，我们需要（操作100次/或者说循环绑定100次）
-
+```js
 window.onload = function(){
     var oUl = document.getElementById('ulBox');
     var allLi = oUl.getElementsByTagName('li');
@@ -42,8 +42,9 @@ window.onload = function(){
         }
     }
 }
+```
 解决方案：使用事件的委托
-
+```js
 window.onload = function(){
     var oUl = document.getElementById("ul1");
     oUl.onclick = function(ev){
@@ -61,3 +62,4 @@ window.onload = function(){
         }
     }
 }
+```
