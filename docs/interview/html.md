@@ -10,3 +10,54 @@
 4.有利于SEO：和搜索引擎建立良好沟通，有助于爬虫抓取更多的有效信息：爬虫依赖于标签来确定上下文和各个关键字的权重。
 
 5.便于团队开发和维护，语义化更具可读性，是下一步吧网页的重要动向，遵循W3C标准的团队都遵循这个标准，可以减少差异化。
+
+## CSS清除浮动的方式
+1.给父亲元素定义高度height
+
+2.使用clear:both
+
+3.使用:after添加伪类元素
+
+4.使用overflow:hidden
+
+5.使用overflow:auto
+
+6.父元素也跟着浮动
+
+## 减少操纵DOM的实例，事件委托
+1.点击li弹出li面的内容，例如页面有100分li。
+
+  1).获取ul下面所有的li元素（操作一次）
+
+  2).给所有的li绑定一个点击事件（操作一次）
+
+  3).如果有100个li，我们需要（操作100次/或者说循环绑定100次）
+
+window.onload = function(){
+    var oUl = document.getElementById('ulBox');
+    var allLi = oUl.getElementsByTagName('li');
+    for(var i=0;i<allLi.length;i++){
+        allLi[i].onclick = function(){
+            alert(123);
+        }
+    }
+}
+解决方案：使用事件的委托
+
+window.onload = function(){
+    var oUl = document.getElementById("ul1");
+    oUl.onclick = function(ev){
+        var ev = ev || window.event;
+        var target = ev.target || ev.srcElement;
+        if(target.nodeName.toLowerCase() == 'li'){
+            alert(123);
+            alert(target.innerHTML);
+            //可以继续判断
+            switch(target.id){
+                case 'add':
+                alert('添加事件');
+                break;
+            }
+        }
+    }
+}
