@@ -900,3 +900,72 @@ axios({
 })
 ```
 
+## JS的数据类型 6种
+
+```js
+1.String 
+
+2.Object:{
+    array,
+    function,
+    data
+}
+
+3.Number
+
+4.Boolean
+
+5.Undefined
+
+6.Null
+
+7.symbol(ES6)
+```
+var str = '我是字符串'
+
+判断数据类型使用 typeOf str
+
+## 当输入一个URL浏览器怎么执行的
+1.DNS域名解析   浏览器自身DNS，操作系统DNS，读取HOST文件，向域名发起请求
+
+2.建立TCP连接   三次握手
+
+3.发起HTTP请求   请求报文，cookie，主体，响应头
+
+4.接受响应结果   setcookie，返回HTTP状态吗200
+
+5.浏览器解析HTML   构建DOM树，下载资源，构建渲染
+
+6.浏览器布局渲染   布局，绘制
+
+## 浏览器的组成
+1.用户界面 - 包括地址栏，后退/前进按钮、书签目录等，出了用来显示你所请求页面的主窗口之外的其他部分。
+
+2.浏览器引擎 - 在用户界面和渲染引擎之间传送指令。用来查询及操作渲染引擎的接口。
+
+3.渲染引擎 - 用来显示请求的内容。
+
+4.网络 - 用来完成网络调用，例如http请求
+
+5.JS解释器 - 用来解释执行JS代码。
+
+6.UI后端 - 用来绘制类似组合选择框架及对话框等基本组件。
+
+7.数据存储 - 属于持久层，浏览器需要在硬盘中保存类似cookie的各种数据。
+
+## 渲染引擎的基本流程
+
+## zepto和jQuery的区别8条
+
+```js
+1.Zepto 的选择器表达式: [name=value] 中value 必须用 双引号 " or 单引号 ' 括起来
+
+2.Zepto 是根据标准浏览器写的，所以对于节点尺寸的方法只提供 width() 和 height()，省去了 innerWidth(), innerHeight(),outerWidth(),outerHeight()
+
+3.Zepto 的each 方法只能遍历 数组，不能遍历JSON对象
+
+4.Zepto.js: 无法获取宽高；jQuery: 可以获取。
+
+5.使用 jQuery 时 load 事件的处理函数不会执行，使用 Zepto 时 load 事件的处理函数 会 执行。
+```
+## 
