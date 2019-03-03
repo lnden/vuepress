@@ -818,3 +818,84 @@ xhr.onreadystatechange = function () {
 4xx：客户端错误，客户请求包含语法错误或者是不能正确执行
 
 5xx：服务端错误，服务器不能正确执行一个正确的请求
+
+## TCP三次握手
+主要是为了防止客户端发出的已失效的连接请求报文突然又传到了服务器，因而产生错误。
+
+正常情况：
+
+A发出了连接请求，但连接请求报文丢失而未受到确认，于是A再重新传一次连接请求，后来受到了确认，建立了连接，数据传输完毕后，就释放了连接，A共发送了两个连接请求报文段，其中第一个丢失，第二个达到了B
+
+异常情况:
+
+即A发出的第一个连接请求报文字段并没有丢失，而是在某个网络节点长时间滞留，以至延误到连接释放以后的某个时间才到达B，本来这是一个早已失效的报文字段，但B收到此失效的 连接请求报文字段后，会误以为是A又发出一次新的连接请求，于是就像A发出确认报文段，同意建立连接，假定不采用第三次握手，那么只要B发出确认，新的连接就建立了，一直等待A发送数据过来，使得B许多资源就浪费了，所以采用三次握手的方法可以防止上述现象发生，在刚才的情况下，A不会向B发出第二次确认，B由于收不到确认，就知道A并没有要求建立连接。
+
+## jquery ajax
+
+```js
+$(function(){
+    $.ajax({
+        ur:'index.php',
+        type:"POST",
+        data:{},
+        dataType:'json',
+        success:function(res){
+            
+        },
+        error:function(err){
+            
+        },
+        timeout:3000,   //延迟3000毫秒加载
+        async:true,     //表示请求异步还是同步
+        catch:true,     //表示浏览器是否缓存被请求页面
+        beforeSend:function(xhr){
+            //发送请求前运行的函数。
+        },
+        complate:function(){
+            //在请求完成时运行该函数，在success,error之后  
+        },
+        jsonp:'',
+        jsonpCallback:'',
+        password:'123456',
+        username:'admin',
+        xhr:function(){
+            //用于创建 XMLHttpRequest 对象的函数。
+        }
+        
+    })
+})
+```
+
+## axios ajax
+```js
+axios({
+    url:'',
+    methods:'GET',
+    data:{},
+    transformRequest:[function(data){
+        return data
+    }],
+    headers:{
+    
+    },
+    timeout:3000,
+    adapter:function(){
+        
+    },
+    responseType:'json',
+    auth: {
+        username: 'janedoe',
+        password: 's00pers3cret'
+    },
+    baseUrl:'',
+    transformRequest:[function(data){
+        return data
+    }],
+    transformResponse:[function(data){
+        return data
+    }],
+    params  :{
+        ID:123466
+    }
+})
+```
