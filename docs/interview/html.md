@@ -63,3 +63,28 @@ window.onload = function(){
     }
 }
 ```
+
+## H5新特性
+
+### 语义标签
+
+### 增强型表单
+
+### 视频和音频
+
+### Canvas绘图
+
+### SVG绘图
+
+### 地理位置
+
+### 拖放API
+
+### web storage
+
+### web socket
+
+### web worker
+
+
+1.新增语义化标签，section、article/aside/main/nav/header/footer/audio/video/ canvas/web storage
