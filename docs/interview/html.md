@@ -308,6 +308,28 @@ sessionStorage  为短期存储，即浏览器关闭，存储失效
 
 ### webSocket
 
+websocket实时通讯，聊天室，实时监听后台传递过来的消息，可以节约贷款，不浪费资源，头部信息比较小
+
+属性：
+```js
+Socket.readState
+Socket.bufferedAmount
+```
+方法：
+```js
+Socket.send()
+Socket.close()
+```
+
+事件：
+```js
+Socket.onopen()
+Socket.onmessage()
+Socket.error()
+Socket.close()
+```
+
+
 ### webWorker
 
 ### 拖放API
