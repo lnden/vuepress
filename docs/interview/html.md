@@ -67,17 +67,99 @@ window.onload = function(){
 ## H5新特性
 
 ### 语义标签
+```html
+<section></section>
+<aside></aside>
+<article></article>
+<nav></nav>
+<header></header>
+<footer></footer>
+<canvas></canvas>
+<audio></audio>
+<video></video>
+<amin></amin>
+<figure></figure>
+<figcaption></figcaption>
+```
 
 ### 增强型表单
 
+```html
+<label for="color">颜色：</label>
+<input id="color" type="color">
+
+<label for="date">日期：</label>
+<input id="date" type="date">
+
+<label for="email">邮箱：</label>
+<input id="email" type="email">
+
+<label for="month">月份：</label>
+<input id="month" type="month">
+
+<label for="number">数字：</label>
+<input id="number" type="number">
+
+<label for="range">滑动条：</label>
+<input id="range" type="range">
+
+<label for="search">搜索：</label>
+<input id="search" type="search">
+
+<label for="tel">电话：</label>
+<input id="tel" type="tel">
+
+<label for="time">时间：</label>
+<input id="time" type="time">
+
+<label for="url">网址：</label>
+<input id="url" type="url">
+
+<label for="week">周和年：</label>
+<input id="week" type="week">
+```
+
 ### 视频和音频
+```html
+<audio src="music.mp3">该浏览器不支持</audio>
+<!-- 常用属性如下 -->
+    src         <!-- 要播放的音频的 URL。 -->
+    autoplay    <!-- 马上播放。 -->
+    controls    <!-- 显示控件，比如播放按钮。 -->
+    loop        <!-- 音频结束时重新开始播放。 -->
+    preload     <!-- 音频在页面加载时进行加载，并预备播放。 -->
 
+<!-- 常用事件H5媒介事件 -->
+<video src="music.mp4">该浏览器不支持</video>
+```
 ### Canvas绘图
+&emsp;&emsp;该标签用于绘制图像（通过脚本，通常是Javascript）
 
-### SVG绘图
+常用方法有
+```js
+var ctx = canvas.getContext('2d');
+ctx.rect()              //  画矩形
+ctx.lineCap="round";    //  设置线结束的样式
+ctx.moveTo()
+ctx.linTo()             //  路径移动，不创建线条，创建线条
+ctx.scale()
+ctx.rotate()            //  转换，缩放and旋转
+ctx.font="40px Arial";  //  可以写文本
+ctx.drawImage()         //  向画布上绘制图像、画布或视频
+```
 
 ### 地理位置
+### Map图像
+```html
+<img src="/i/eg_planets.jpg" border="0" usemap="#planetmap" alt="Planets" />
 
+<map name="planetmap" id="planetmap">
+    <area shape="circle" coords="180,139,14" href ="/example/html/venus.html" target ="_blank" alt="Venus" />
+    <area shape="circle" coords="129,161,10" href ="/example/html/mercur.html" target ="_blank" alt="Mercury" />
+    <area shape="rect" coords="0,0,110,260" href ="/example/html/sun.html" target ="_blank" alt="Sun" />
+</map>
+```
+**注释：** img 元素中的 "usemap" 属性引用 map 元素中的 "id" 或 "name" 属性（根据浏览器），所以我们同时向 map 元素添加了 "id" 和 "name" 属性。
 ### 拖放API
 
 ### web storage
@@ -85,6 +167,3 @@ window.onload = function(){
 ### web socket
 
 ### web worker
-
-
-1.新增语义化标签，section、article/aside/main/nav/header/footer/audio/video/ canvas/web storage
