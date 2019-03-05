@@ -240,10 +240,74 @@ watchPosition()需要定义一个watchID，var watchID = watchPosition(...)，�
 ```
 **注释：** img 元素中的 "usemap" 属性引用 map 元素中的 "id" 或 "name" 属性（根据浏览器），所以我们同时向 map 元素添加了 "id" 和 "name" 属性。
 
+
+### webStorage
+
+webStorage 分 localStorage和sessionSorage 两种存储方式，主要是数据保存时长及数据的共享方式不同
+API列表为：
+
+- getItem()       接收一个参数key，获取对应key的本地存储
+
+- setItem()       接收两个参数，key和value，如果不存在则添加，存在则更新
+
+- key()           接收一个整数索引，返回对应本地存储中索引的键
+
+- removeItem()    接收一个参数key，删除对应本地存储的key
+
+- clear()         清空存储中的所有本地存储数据
+
+```js
+localStorage.setItem('userId', 'P0125688');
+console.log(localStorage.key(0));               // userId
+console.log(localStorage.getItem('userId'))     // P0125688
+localStorage.removeItem('userId');
+localStorage.clear();
+```
+localStorage    为长期存储
+
+sessionStorage  为短期存储，即浏览器关闭，存储失效
+
+### 浏览器存储的方式及优缺点
+
+浏览器的存储有如下几点
+
+- Cookie
+
+    大小存储4KB左右，
+    可以设置过期时间，
+    增加流程消耗 每次请求都携带cookie信息，
+    安全性不够高 可以被拦截
+
+- localStorage
+
+    长期存储，
+    大小存储5M左右，
+    在浏览器的隐私模式下面是不可读取的，
+    存储字符串
+
+
+- sessionStorage
+
+    短期存储（即浏览器关闭），
+    大小存储5M左右，
+    在浏览器的隐私模式下面是不可读取的，
+    存储字符串
+
+存储对象转换为字符串JSON.stringify(obj)
+
+获取字符串转换为对象JSON.parse(str)
+
+- indexedDB
+
+    IndexedDB 不属于关系型数据库（不支持 SQL 查询语句），更接近 NoSQL 数据库。,例如redis、monggo
+
+- web Sql
+
+    webSql 关系型数据库，支持度不好，目前只有chrome支持（但是也够了，浏览器已经被chrome）
+
+
+### webSocket
+
+### webWorker
+
 ### 拖放API
-
-### web storage
-
-### web socket
-
-### web worker
