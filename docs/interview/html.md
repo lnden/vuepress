@@ -1,5 +1,19 @@
 # html
 
+## Doctype作用，标准模式与兼容模式有什么区别
+
+doctype告诉浏览器用什么模式来解析文档
+
+标准模式是以浏览器最高级别来解析文档，而兼容模式是以向后兼容的方式来解析文档
+
+## 块级元素、行内元素、空(void)元素有哪些？
+
+1.块级元素：div section main footer header p ul li ol
+
+2.行内元素：span input a b strong i em small
+
+3.空元素：
+
 ## 说说你对语义化的理解
 1.去掉或样式丢失的时候能让页面呈现清晰的结构：html本身是没有表现的，我们看到例如是粗体，字体大小2em，加粗；是加粗的，不要认为这是html的表现，这些其实html默认的css样式在起作用，所以去掉或样式丢失的时候能让页面呈现清晰的结构不是语义化的HTML结构的优点，但是浏览器都有有默认样式，默认样式的目的也是为了更好的表达html的语义，可以说浏览器的默认样式和语义化的HTML结构是不可分割的。
 
@@ -328,6 +342,16 @@ Socket.onmessage()
 Socket.error()
 Socket.close()
 ```
+
+### webSocket如何兼容低版本浏览器
+
+Adobe flash socket
+
+Active HTMLFile(IE)
+
+基于Multipart 编码发送 XHR
+
+基于长轮询的XHR
 
 
 ### webWorker
