@@ -1,19 +1,5 @@
 # html
 
-## Doctype作用，标准模式与兼容模式有什么区别
-
-doctype告诉浏览器用什么模式来解析文档
-
-标准模式是以浏览器最高级别来解析文档，而兼容模式是以向后兼容的方式来解析文档
-
-## 块级元素、行内元素、空(void)元素有哪些？
-
-1.块级元素：div section main footer header p ul li ol
-
-2.行内元素：span input a b strong i em small
-
-3.空元素：br meta hr link input img
-
 ## 浏览器内核都有哪些
 
  - IE trident内核
@@ -21,6 +7,27 @@ doctype告诉浏览器用什么模式来解析文档
  - Safari webkit内核
  - Opera  以前是presto内核  现已用chrome的Blink 内核
  - Chrome Blink 基于webkit
+
+## 前端页面有那三层
+
+结构层、表现层、行为层
+
+## 说说你对语义化的理解
+
+直观的认识标签 对于搜索引擎的抓取有好处，用正确的标签做正确的事情！
+
+html语义化就是让页面的内容结构化，便于对浏览器、搜索引擎解析；
+
+在没有样式CCS情况下也以一种文档格式显示，并且是容易阅读的。搜索引擎的爬虫依赖于标记来确定上下文和各个关键字的权重，利于 SEO。
+
+使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。
+
+## Doctype作用
+
+doctype告诉浏览器用什么模式来解析文档
+
+标准模式是以浏览器最高级别来解析文档，而兼容模式是以向后兼容的方式来解析文档
+
 
 ## XHTML和HTML有什么区别
 
@@ -36,86 +43,17 @@ XHTML 元素必须被关闭。
 XHTML 文档必须拥有根元素
 
 
-## 前端页面有那三层
+## 块级元素、行内元素、空(void)元素
 
-结构层、表现层、行为层
+1.块级元素：div、 section、 main、 footer、 header、 p、 ul、 li、 ol
+
+2.行内元素：span、 input、 a、 b、 strong、 i、 em、 small
+
+3.空元素：br、 meta、 hr、 link、 input、 img
 
 ## H5移除的元素
 
-big、center、font、s、strike、tt、u
-
-## 说说你对语义化的理解
-
-直观的认识标签 对于搜索引擎的抓取有好处，用正确的标签做正确的事情！
-
-html语义化就是让页面的内容结构化，便于对浏览器、搜索引擎解析；
-
-在没有样式CCS情况下也以一种文档格式显示，并且是容易阅读的。搜索引擎的爬虫依赖于标记来确定上下文和各个关键字的权重，利于 SEO。
-
-使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。
-
-1.去掉或样式丢失的时候能让页面呈现清晰的结构：html本身是没有表现的，我们看到例如是粗体，字体大小2em，加粗；是加粗的，不要认为这是html的表现，这些其实html默认的css样式在起作用，所以去掉或样式丢失的时候能让页面呈现清晰的结构不是语义化的HTML结构的优点，但是浏览器都有有默认样式，默认样式的目的也是为了更好的表达html的语义，可以说浏览器的默认样式和语义化的HTML结构是不可分割的。
-
-2.屏幕阅读器（如果访客有视障）会完全根据你的标记来“读”你的网页。
-
-3.PDA、手机等设备可能无法像普通电脑的浏览器一样来渲染网页（通常是因为这些设备对CSS的支持较弱）。
-
-4.有利于SEO：和搜索引擎建立良好沟通，有助于爬虫抓取更多的有效信息：爬虫依赖于标签来确定上下文和各个关键字的权重。
-
-5.便于团队开发和维护，语义化更具可读性，是下一步吧网页的重要动向，遵循W3C标准的团队都遵循这个标准，可以减少差异化。
-
-## CSS清除浮动的方式
-1.给父亲元素定义高度height
-
-2.使用clear:both
-
-3.使用:after添加伪类元素
-
-4.使用overflow:hidden
-
-5.使用overflow:auto
-
-6.父元素也跟着浮动
-
-## 减少操纵DOM的实例，事件委托
-1.点击li弹出li面的内容，例如页面有100分li。
-
-  1).获取ul下面所有的li元素（操作一次）
-
-  2).给所有的li绑定一个点击事件（操作一次）
-
-  3).如果有100个li，我们需要（操作100次/或者说循环绑定100次）
-```js
-window.onload = function(){
-    var oUl = document.getElementById('ulBox');
-    var allLi = oUl.getElementsByTagName('li');
-    for(var i=0;i<allLi.length;i++){
-        allLi[i].onclick = function(){
-            alert(123);
-        }
-    }
-}
-```
-解决方案：使用事件的委托
-```js
-window.onload = function(){
-    var oUl = document.getElementById("ul1");
-    oUl.onclick = function(ev){
-        var ev = ev || window.event;
-        var target = ev.target || ev.srcElement;
-        if(target.nodeName.toLowerCase() == 'li'){
-            alert(123);
-            alert(target.innerHTML);
-            //可以继续判断
-            switch(target.id){
-                case 'add':
-                alert('添加事件');
-                break;
-            }
-        }
-    }
-}
-```
+big、 center、 font、 s、 strike、 t、 u
 
 ## H5新特性
 
@@ -138,38 +76,38 @@ window.onload = function(){
 ### 增强型表单
 
 ```html
-<label for="color">颜色：</label>
-<input id="color" type="color">
-
 <label for="date">日期：</label>
 <input id="date" type="date">
 
-<label for="email">邮箱：</label>
-<input id="email" type="email">
+<label for="week">周和年：</label>
+<input id="week" type="week">
 
 <label for="month">月份：</label>
 <input id="month" type="month">
 
+<label for="time">时间：</label>
+<input id="time" type="time">
+
+<label for="email">邮箱：</label>
+<input id="email" type="email">
+
 <label for="number">数字：</label>
 <input id="number" type="number">
+
+<label for="tel">电话：</label>
+<input id="tel" type="tel">
+
+<label for="url">网址：</label>
+<input id="url" type="url">
+
+<label for="color">颜色：</label>
+<input id="color" type="color">
 
 <label for="range">滑动条：</label>
 <input id="range" type="range">
 
 <label for="search">搜索：</label>
 <input id="search" type="search">
-
-<label for="tel">电话：</label>
-<input id="tel" type="tel">
-
-<label for="time">时间：</label>
-<input id="time" type="time">
-
-<label for="url">网址：</label>
-<input id="url" type="url">
-
-<label for="week">周和年：</label>
-<input id="week" type="week">
 ```
 
 ### 视频和音频
@@ -206,11 +144,11 @@ ctx.drawImage()         //  向画布上绘制图像、画布或视频
 
 navigator.geolocation 的三个方法
 
-**1.getCurrentPosition()**
+**1.getCurrentPosition()**  获取当前位置
 
-**2.watchPosition()**
+**2.watchPosition()**   监听位置
 
-**3.clearWatch()**
+**3.clearWatch()**  清除监听位置
 
 
 一、使用方法：navigator.geolocation.getCurrentPosition(successCallback, [errorCallback] , [positionOptions]);
@@ -395,4 +333,4 @@ Active HTMLFile(IE)
 
 ### webWorker
 
-### 拖放API
+可以实现js多线程处理，避免浏览器卡死现象

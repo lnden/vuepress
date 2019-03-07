@@ -286,7 +286,7 @@ console.log(object.getNameFunc()())     //  输出  'My Object'
 // object内定义this变量，在匿名函数中使用，环境变量this仍然是object
 ```
 
-## 面向对象编程（一）：封装
+## 面向对象编程（一）封装
 
 **一、生成实例对象的原始模式**
 
@@ -447,7 +447,7 @@ alert('name' in cat1);      //  true
 alert('type' in cat1);      //  true
 ```
 
-## 面向对象编程（二）：构造函数的继承
+## 面向对象编程（二）构造函数的继承
 
 **思考题**
 
@@ -648,7 +648,7 @@ var cat1 = new Cat('大毛','黄色');
 alert(cat1.species);                // 动物
 ```
 
-## 面向对象编程（三）：非构造函数继承
+## 面向对象编程（三）非构造函数继承
 
 **一、什么是"非构造函数"的继承**
 ```js
@@ -968,4 +968,43 @@ var str = '我是字符串'
 
 5.使用 jQuery 时 load 事件的处理函数不会执行，使用 Zepto 时 load 事件的处理函数 会 执行。
 ```
-## 
+
+## 减少操纵DOM的实例，事件委托
+1.点击li弹出li面的内容，例如页面有100分li。
+
+  1).获取ul下面所有的li元素（操作一次）
+
+  2).给所有的li绑定一个点击事件（操作一次）
+
+  3).如果有100个li，我们需要（操作100次/或者说循环绑定100次）
+```js
+window.onload = function(){
+    var oUl = document.getElementById('ulBox');
+    var allLi = oUl.getElementsByTagName('li');
+    for(var i=0;i<allLi.length;i++){
+        allLi[i].onclick = function(){
+            alert(123);
+        }
+    }
+}
+```
+解决方案：使用事件的委托
+```js
+window.onload = function(){
+    var oUl = document.getElementById("ul1");
+    oUl.onclick = function(ev){
+        var ev = ev || window.event;
+        var target = ev.target || ev.srcElement;
+        if(target.nodeName.toLowerCase() == 'li'){
+            alert(123);
+            alert(target.innerHTML);
+            //可以继续判断
+            switch(target.id){
+                case 'add':
+                alert('添加事件');
+                break;
+            }
+        }
+    }
+}
+```
