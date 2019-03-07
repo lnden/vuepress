@@ -1008,3 +1008,7 @@ window.onload = function(){
     }
 }
 ```
+
+## 什么是http协议
+
+http洗衣其实就是超文本
