@@ -70,10 +70,12 @@ function getInterview(title) {
             collapsable: false,
             children: [
                 '',
-                'javascript',
-                'html',
-                'css',
-                'vue'
+                'Html',
+                'Css',
+                'Javascript',
+                'Vue',
+                'React',
+                'weChat'
             ]
         }
     ]

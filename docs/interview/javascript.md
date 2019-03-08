@@ -899,7 +899,39 @@ axios({
     }
 })
 ```
+## axio拦截器
 
+你可以截取请求或响应在被 then 或者 catch 处理之前
+```js
+//添加请求拦截器
+axios.interceptors.request.use（function（config）{
+    //在发送请求之前做某事
+    return config;
+}，function（error）{
+    //请求错误时做些事
+    return Promise.reject（error）;
+}）;
+
+//添加响应拦截器
+axios.interceptors.response.use（function（response）{
+    //对响应数据做些事
+    return response;
+}，function（error）{
+    //请求错误时做些事
+    return Promise.reject（error）;
+}）;
+```
+如果你以后可能需要删除拦截器。
+```js
+var myInterceptor = axios.interceptors.request.use(function () {/*...*/});
+axios.interceptors.request.eject(myInterceptor);
+```
+
+你可以将拦截器添加到axios的自定义实例。
+```js
+var instance = axios.create();
+instance.interceptors.request.use(function () {/*...*/});
+```
 ## JS的数据类型 6种
 
 ```js
@@ -954,7 +986,9 @@ var str = '我是字符串'
 7.数据存储 - 属于持久层，浏览器需要在硬盘中保存类似cookie的各种数据。
 
 ## 渲染引擎的基本流程
+webkit主流程
 
+Mozilla的Geoko主流程
 ## zepto和jQuery的区别8条
 
 ```js
@@ -1011,4 +1045,92 @@ window.onload = function(){
 
 ## 什么是http协议
 
-http洗衣其实就是超文本
+- 什么是http协议
+&emsp;&emsp;http协议其实就是超文本传输协议，超文本传输协议是一种详细规定了浏览器和外围网服务器之间的规则。
+
+通过因特网传送万维网文档的数据传送协议，在整个ios传输层次模型中http处于最高层次，而tcp是处于下面一层传输，也就是说 http是基于tap协议建立的链接，所以http传输建立之前需要建立tcp链接，也就是三次握手，在建立tcp链接之后方可真正请求响应请求。
+
+- http传输过程详解
+当我们发送以一个ajax请求，或者地址栏输入url后，我们的浏览器就给web服务器发送一个request，之后服务器处理完成后返回响应的response给浏览器。之后浏览器拿到数据进行解析里面数据从而生成我们页面或者组建数据。
+
+期间传送还有可能经历了代理服务器（目前很多很多网站都用代理服务器，主要原因是其隐蔽）从而实现服务端文件缓存
+
+http传输是面向链接的，也就是说如果链接没有终端，可以继续发送请求，整个设置可以在请求头connection来设置，例如：我通过一个URL请求来一个html页面后。
+
+经分析，html页面中包含对图片的请求没，则会直接在向服务器发起请求而不必重新建立tcp链接，等到所有请求都就绪，方可完成一次页面加载或者请求完毕。
+
+## TCP三次握手
+
+主要是为了防止客户端发出的已失效的连接请求报文突然又传到了服务器，因而产生错误。
+
+正常情况：
+
+A发出了连接请求，但连接请求报文丢失而未受到确认，于是A再重新传一次连接请求，后来受到了确认，建立了连接，数据传输完毕后，就释放了连接，A共发送了两个连接请求报文段，其中第一个丢失，第二个达到了B
+
+异常情况:
+
+即A发出的第一个连接请求报文字段并没有丢失，而是在某个网络节点长时间滞留，以至延误到连接释放以后的某个时间才到达B，本来这是一个早已失效的报文字段，但B收到此失效的 连接请求报文字段后，会误以为是A又发出一次新的连接请求，于是就像A发出确认报文段，同意建立连接，假定不采用第三次握手，那么只要B发出确认，新的连接就建立了，一直等待A发送数据过来，使得B许多资源就浪费了，所以采用三次握手的方法可以防止上述现象发生，在刚才的情况下，A不会向B发出第二次确认，B由于收不到确认，就知道A并没有要求建立连接。
+
+## JS的浅拷贝和深拷贝
+
+浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
+
+## for of 和for in的区别
+
+1.for…in 遍历每一个属性名称,而 for…of遍历每一个属性值。
+
+2.使用for in会遍历数组所有的可枚举属性，包括原型。例如上栗的原型方法method和name属性，所以for in更适合遍历对象，不要使用for in遍历数组。
+
+3.for of遍历的只是数组内的元素，而不包括数组的原型属性method和索引name
+
+## in 和 instanceOf的区别
+
+1.in某个实例 是否有某个属性
+
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+    this.style = '猫科动物';
+    this.eat = function(){
+        alert('吃老鼠');
+    }
+}
+Cat.prototype.type = function(){
+    console.log('我是挂在原型上的类型')
+}
+var cat1 = new Cat('大毛','黄色');
+
+alert('name' in cat1)
+alert('type' in cat1)  //这里不管是本地属性还是继承属性
+2.instaceOf 判断某个对象是否是右侧的实例
+
+function Cat(name,color){
+    this.name = name;
+    this.color = color;
+}
+var cat1 = new Cat('大毛','黄色');
+
+alert(cat1 instanceOf Cat);  //cat1是Cat的实例
+alert(cat1 instanceof Object)  //true:因为所有的类都是继承自Object
+
+## isPrototypeOf 和 hasOwnProperty的区别
+
+1.某个proptotype对象和某个实例之间的关系
+
+alert(Cat.prototype.isPrototypeOf(cat1))      //true:
+alert(Cat.prototype.isPrototypeOF(cat2))      //true:
+2.实例对象都有一个hasOwnProperty()方法，用来判断某一个属性到底是本地属性，还是继承自prototype对象的属性。
+
+alert(cat1.hasOwnProperty("name"))      //true
+alert(cat1.hasOwnProperty("type"))      //false
+注释：这里in 和 hasOwnProperty 放在一起容易记，他们都是判断实例上的元素
+
+  1. in 是判断某个元素是否存在实例上面(不区分本地属性和继承属性)
+
+  2. hasOwnProperty 是判断某个实例里是否存在某个元素(区分本地属性和继承)
+
+注释：这里instanceOf 和 isPrototyOf 放在一起容易记，他们都是判断谁是谁的实例
+
+  1. instanceOf 是判断实例是否是Cat的实例(所有实例都是object的实例)
+
+  2. isPrototypeOf 是判断构造函数原型是否有这个实例
