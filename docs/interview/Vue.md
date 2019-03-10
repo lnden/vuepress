@@ -87,9 +87,7 @@ export default {
             default:{}
         }
     },
-    data() {
-        return { }
-    }
+    data() { return { } }
 }
 ```
 
@@ -98,26 +96,45 @@ export default {
 ```js
 // 子组件
 export default {
-    data() {
-        return {}
-    },
+    data() { return {} },
     methods:{
         handleClick(){
-            this.$emit('handleevent','123456')
+            this.$emit('closes','cancel');
         }
     }
 }
 
-
 // 父组件
 <section>
-    <Child @handleClick="childEvent"/>
+    <Child @closes="childEvent"/>
 <section/>
+
+export default {
+    data() { return {} },
+    methods:{
+        closes(){
+            console.log('子组件需要父组件处理关闭状态')
+        }
+    }
+}
 ```
 
 - 兄弟组件之间传值
 
 eventBus，就是创建一个事件中心，相当于中转站，可以用它来传递事件和接收事件。项目比较小时，用这个比较合适。（虽然也有不少人推荐直接用VUEX，具体来说看需求咯。技术只是手段，目的达到才是王道。）
+```js
+//  1.创建公共eventBus.js
+import Vue from 'vue'
+export default new Vue()
+
+//  2.在需要发布值的地方
+import eventBus from './eventBus.js'
+eventBus.$emit('closes',value)
+
+//  3.接受组件监听
+import eventBus from './eventBus.js'
+eventBus.$on('closes',(value)=>{...})
+```
 
 ## vuex详解
 
