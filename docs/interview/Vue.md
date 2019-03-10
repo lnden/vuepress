@@ -137,6 +137,39 @@ eventBus.$on('closes',(value)=>{...})
 ```
 
 ## vuex详解
+vuex 是一种状态管理器，里面有 state、action、mutation、gettter、module、类似redux
+
+- state
+
+state是存储所有状态的地方
+
+action是视图触发事件的地方
+
+vue还专门封装了相关语法糖mapGetters、mapActions、mapStates
+
+```js
+//  使用mapGetters
+
+computed:{
+    ...mapGetters(['']),
+    ...mapStates([''])
+}
+//  使用mapActions
+//  使用mapStates
+//  使用mapMutations
+```
+## vue-router详解
+
+- 路由的钩子函数
+
+beforeEach主要有3个参数to，from，next：
+
+to：route即将进入的目标路由对象，
+
+from：route当前导航正要离开的路由
+
+next：function一定要调用该方法resolve这个钩子。执行效果依赖next方法的调用参数。可以控制网页的跳转。
+
 
 ## 一句话就能回答的面试题
 
