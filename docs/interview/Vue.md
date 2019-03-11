@@ -137,6 +137,10 @@ eventBus.$on('closes',(value)=>{...})
 ```
 
 ## vuex详解
+
+![avatar](https://vuex.vuejs.org/vuex.png)
+
+
 vuex 是一种状态管理器，里面有 state、action、mutation、gettter、module、类似redux
 
 - state
@@ -170,6 +174,33 @@ from：route当前导航正要离开的路由
 
 next：function一定要调用该方法resolve这个钩子。执行效果依赖next方法的调用参数。可以控制网页的跳转。
 
+
+## vue-router实现原理
+
+- hash模式
+
+    早期使用hash来实现路由，url hash 就是类似于
+```js
+https://www.xxx.com/#/login
+```
+这种#后面hash值的变化，并不会导致浏览器向服务器发出请求，没发请求就意味着不刷新页面。另外每次hash值的变化，还会出触发`hashchange`这个时间，通过监听事件我们就可以知道hash值发生了哪些变化。
+```js
+function matchAndUpdate(){
+    // todo 匹配 hash 做Domg更新操作
+}
+window.addEventListener('hashchange',matchaAndUpdate)
+```
+
+- history模式
+
+    因为H5的标准发布，新增了两个API，pushState和replaceState，通过这两个API可以改变URL地址且不会发送请求。同时还有`popstate`事件，使用H5的实现，路由就不会多一个#，变得更加美观。
+```js
+function matchAndUpdate () {
+   // todo 匹配路径 做 dom 更新操作
+}
+
+window.addEventListener('popstate', matchAndUpdate)
+```
 
 ## 一句话就能回答的面试题
 
