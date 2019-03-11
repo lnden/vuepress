@@ -2,6 +2,14 @@
 
 ## call继承
 
+call()和apply()的区别就在于，两者之间的参数。
+
+call()在第一个参数之后的  后续所有参数就是传入该函数的值。apply() 只有两个参数，第一个是对象，第二个是数组，这个数组就是该函数的参数。
+
+bind()方法和前两者不同在于：bind()方法会返回执行上下文被改变的函数而不会立即执行，而前两者是直接执行该函数。它的的参数和call()相同
+
+这三个方法的作用都是改变函数的执行上下文！
+
 首先，我们要知道 `call()` 方法是存在于 `Function` 中，Function.prototype.call 是 f call() { [native code] }
 
 ```js
@@ -934,25 +942,14 @@ instance.interceptors.request.use(function () {/*...*/});
 ```
 ## JS的数据类型 6种
 
-```js
-1.String 
+- 引用数据类型
 
-2.Object:{
-    array,
-    function,
-    data
-}
+    Object、Array、Function
 
-3.Number
+- 基本数据类型
 
-4.Boolean
+    String、Number、Boolean、Undefined、Null、symbol
 
-5.Undefined
-
-6.Null
-
-7.symbol(ES6)
-```
 var str = '我是字符串'
 
 判断数据类型使用 typeOf str
