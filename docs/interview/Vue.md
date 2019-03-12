@@ -10,6 +10,16 @@ View 代表UI 组件，它负责将数据模型转化成UI 展现出来。
 
 ViewModel 监听模型数据的改变和控制视图行为、处理用户交互，简单理解就是一个同步View 和 Model的对象，连接Model和View。
 
+## Vue有哪些指令
+
+v-if、v-show、v-model、v-for、v-bind（:）、v-on（@）、v-else、v-html、v-clock
+
+## v-if和v-show的区别
+
+v-show 仅仅控制元素的显示方式，将使用css的display属性在block和none来回切换;而v-if会控制这个DOM节点是否存在。
+
+当我们需要经常切换某个元素的显示/隐藏时，使用v-show会更加节省性能上的开销;当只需要一次显示或者隐藏时，使用v-if更加合理。
+
 ## Vue的生命周期
 ```js
 
