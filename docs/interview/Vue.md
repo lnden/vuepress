@@ -246,6 +246,38 @@ computed:{
 ```
 ## vue-router详解
 
+- 使用方式
+
+vue-router的使用方式和vuex大致相同
+
+```js
+//  1.下载安装
+cnpm install vue-router -S / cnpm install vuex -S
+
+//  2.新建相应文件
+mkdir router,touch index.js / mkdir store,touch index.js
+
+//  3.引入相应模块
+import Router from 'vue-router' / import Vuex from 'vuex'
+Vue.use(Router) / Vue.use(Vuex)
+
+//  4.导出相应模块
+export default new Router({
+    mode: 'history',
+    routes: []
+})
+export default new Vuex.Store({
+    modules: {},
+    state: {},
+    actions: {},
+    mutations: {},
+    getters: {}
+})
+
+
+
+```
+
 - 路由的钩子函数
 
 beforeEach主要有3个参数to，from，next：
