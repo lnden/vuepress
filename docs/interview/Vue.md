@@ -149,6 +149,19 @@ get 和 set方法内部this指向的都是obj,这意味着get和set可以修改�
 
 <img src="https://pic3.zhimg.com/80/v2-a9c71394190de96b85d0f1d93480f9de_hd.jpg" width="600" align=center />
 
+## 数据劫持应用
+
+```js
+let current = 0
+Object.defineProperty(window, 'a', {
+  get () {
+    current++
+    console.log(current)
+    return current
+  }
+})
+console.log(a === 1 && a === 2 && a === 3) // true
+```
 
 ## Vue组件间的参数传递
 
