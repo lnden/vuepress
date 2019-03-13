@@ -1,2 +1,4 @@
-# vuepress
-Knowledge Sharing
+
+interview文件是收集的一些demo,仅供于思考以及学习
+
+deploy.sh文件是自动执行部署的一些命令
