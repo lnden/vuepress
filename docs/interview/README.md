@@ -27,11 +27,24 @@
 
 ## 渲染引擎的基本流程
 
-
+- Chrome的Webkit主流程
 <img :src="$withBase('/webkit.png')" alt="webkit" width="600">
 
+```
+元素结构 → 元素解析器 → DOM树
+
+                           →   附着合成     →    渲染树(Layout)    →    绘制    →     显示
+
+样式表 → 样式解析器 → 样式规则树
+```
+
+- Mozilla的Geoko主流程
 <img :src="$withBase('/mozilla.jpg')" alt="mozilla" width="600">
 
+## 重绘和回流的区别
+
+- replaint：(重绘)屏幕的一部分重画，不影响整体布局，比如某个CSS的背景色变了，但元素的几何尺寸和位置不变。
+- reflow：(回流)意味着元件的几何尺寸变了，我们需要重新验证并计算渲染树。是渲染树的一部分或全部发生了变化。这就是Reflow，或是Layout。
 
 ## 前端性能优化
 
