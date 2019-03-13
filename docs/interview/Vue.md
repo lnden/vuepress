@@ -147,7 +147,7 @@ get 和 set方法内部this指向的都是obj,这意味着get和set可以修改�
 当一个Vue实例创建时，vue会遍历data选项的属性，用 Object.defineProperty 将它们转为 getter/setter并且在内部追踪相关依赖，在属性被访问和修改时通知变化。
 每个组件实例都有相应的 watcher 程序实例，它会在组件渲染的过程中把属性记录为依赖，之后当依赖项的 setter 被调用时，会通知 watcher 重新计算，从而致使它关联的组件得以更新。
 
-<img src="https://pic3.zhimg.com/80/v2-a9c71394190de96b85d0f1d93480f9de_hd.jpg" width="600" align=center />
+<img :src="$withBase('/defineProperty.jpg')" alt="defineProperty" width="600">
 
 ## 数据劫持应用
 
@@ -233,7 +233,7 @@ eventBus.$on('closes',(value)=>{...})
 
 ## vuex详解
 
-![avatar](https://vuex.vuejs.org/vuex.png)
+<img :src="$withBase('/vuex.png')" alt="vuex" width="600">
 
 
 vuex 是一种状态管理器，里面有 state、action、mutation、gettter、module、类似redux
@@ -332,7 +332,8 @@ window.addEventListener('popstate', matchAndUpdate)
 
 ## Vue的生命周期
 
-<img src="https://cn.vuejs.org/images/lifecycle.png" width="600" align=center />
+<img :src="$withBase('/lifecycle.png')" alt="lifecycle" width="600">
+
 
 在谈到Vue的生命周期的时候，我们首先需要创建一个实例，也就是在 new Vue ( ) 的对象过程当中，首先执行了init（init是vue组件里面默认去执行的），在init的过程当中首先调用了beforeCreate，然后在injections（注射）和reactivity（反应性）的时候，它会再去调用created。所以在init的时候，事件已经调用了，我们在beforeCreate的时候千万不要去修改data里面赋值的数据，最早也要放在created里面去做（添加一些行为）。
 
