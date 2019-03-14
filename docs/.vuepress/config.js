@@ -20,7 +20,7 @@ module.exports = {
             '/planning/': getSummary('Planning')
         },
         sidebarDepth:2,
-        lastUpdated: '上次更新',
+        // lastUpdated: '上次更新',
         search:true
     },
     base:'/vuepress/'
