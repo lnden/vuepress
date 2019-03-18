@@ -18,6 +18,18 @@
 
 ### 持续关注Videojs
 
+- 视频加密
+
+- 视频锚点
+
+- 快进，倒进
+
+- 视频试看
+
+- 视频流加载
+
+- 插件：videojs、ffmpeg、m3u8流
+
 ### New direction
 
 ### umi
