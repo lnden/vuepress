@@ -1040,6 +1040,19 @@ window.onload = function(){
 }
 ```
 
+## JS时间机制
+
+- 阻止事件默认行为
+```js
+event.preventDefault()
+```
+
+- 取消事件冒泡
+```js
+event.stopPropagation()      /       event.cancelBubble = true;
+```
+
+
 ## 什么是http协议
 
 - 什么是http协议
