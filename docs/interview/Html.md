@@ -1,12 +1,4 @@
-# html
-
-## 浏览器内核都有哪些
-
- - IE trident内核
- - Firefox gecko内核
- - Safari webkit内核
- - Opera  以前是presto内核  现已用chrome的Blink 内核
- - Chrome Blink 基于webkit
+# Html
 
 ## 前端页面有那三层
 
