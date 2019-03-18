@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js排序</title>
+</head>
+<body>
+    <!--<script>-->
+        <!--// 冒泡排序-->
+        <!--function sort(ele){-->
+            <!--for(var i=0,le=ele.length-1;i<le;i++){-->
+                <!--for(var j=0,lg=ele.length-i-1;j<lg;j++){-->
+                    <!--if(ele[j]>ele[j+1]){-->
+                        <!--let swap = ele[j];-->
+                        <!--ele[j] = ele[j+1];-->
+                        <!--ele[j+1] = swap;-->
+                    <!--}-->
+                <!--}-->
+            <!--}-->
+        <!--}-->
+
+        <!--let elements = [3,1,5,7,2,4,9,6,10,8];-->
+        <!--document.write('没调用之前：'+elements)-->
+        <!--document.write('<br />')-->
+        <!--sort(elements)-->
+        <!--document.write('没调用之前：'+elements)-->
+    <!--</script>-->
+
+    <!--<script>-->
+        <!--// 快速排序-->
+        <!--function quickSort(ele){-->
+            <!--if(ele.length<=1){-->
+                <!--return ele;-->
+            <!--}-->
+
+            <!--var piovtIndex = Math.floor(ele.length/2);-->
+            <!--var pivot = ele.splice(piovtIndex,1)[0];-->
+            <!--var left = [];-->
+            <!--var right = [];-->
+            <!--for(var i=0;i<ele.length;i++){-->
+                <!--if(ele[i]<pivot){-->
+                    <!--left.push(ele[i])-->
+                <!--}else{-->
+                    <!--right.push(ele[i])-->
+                <!--}-->
+            <!--}-->
+            <!--return quickSort(left).concat([pivot],quickSort(right));-->
+        <!--}-->
+
+        <!--var elements = [5, 6, 2, 1, 3, 8, 7, 1.2, 5.5, 4.5]-->
+        <!--document.write(quickSort(elements))-->
+    <!--</script>-->
+
+    <script>
+        function sort(ele){
+            // 假设第0个元素是一个有序的数列，第一个以后的是无需的序列，
+            // 所有从第一个元素开始将无序列的元素插入到有序数列中
+            for(var i=1;i<ele.length;i++){
+                // 升序
+                if(ele[i]<ele[i-1]){
+                    var guard = ele[i];
+                    var j = i-1;
+                    ele[i] = ele[j];
+                    while(j>= 0 && guard < ele[j]){
+                        ele[j+1] = ele[j]
+                        j--
+                    }
+                    ele[j+1] = guard;
+                }
+            }
+        }
+
+        var elements = [5, 9, 3, 6, 7, 4, 1, 8, 2];
+
+        document.write('没调用之前：'+elements)
+        document.write('<br />')
+        sort(elements)
+        document.write('没调用之前：'+elements)
+    </script>
+</body>
+</html>

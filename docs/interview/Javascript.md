@@ -1084,3 +1084,121 @@ alert(cat1.hasOwnProperty("type"))      //false
 如果你细心的话你会发现，其实请求已经发送出去了，你只是拿不到响应而已。
 
 所以浏览器这个策略的本质是，一个域名的 JS ，在未经允许的情况下，不得读取另一个域名的内容。但浏览器并不阻止你向另一个域名发送请求。
+
+## =、==和===的区别
+
+= 表示赋值的意思。
+
+== 在表达式两边的数据类型不一致时,会隐式转换为相同数据类型,然后对值进行比较。
+
+=== 不会进行类型转换,在比较时除了对值进行比较以外,还比较两边的数据类型。
+
+## js排序算法
+
+- 冒泡排序
+
+解析：
+
+&emsp;&emsp;1.比较相邻的两个元素，如果前一个比后一个大，则交换位置。
+
+&emsp;&emsp;2.第一轮的时候最后一个元素应该是最大的一个
+
+&emsp;&emsp;3.按照步骤一的方法进行相邻两个元素的比较，这个时候由于最后一个元素已经是最大的了，所以最后一个元素不用比较
+
+```js
+function sort(ele){
+    for(var i=0,le=ele.length-1;i<le;i++){
+        for(var j=0,lg=ele.length-i-1;j<lg;j++){
+            if(ele[j]>ele[j+1]){
+                let swap = ele[j];
+                ele[j] = ele[j+1];
+                ele[j+1] = swap;
+            }
+        }
+    }
+}
+
+let elements = [3,1,5,7,2,4,9,6,10,8];
+console.log('sort before：'+elements)
+sort(elements)
+console.log('sort after：'+elements)
+```
+
+- 快速排序
+
+解析：
+
+&emsp;&emsp;快排是对冒泡排序的一种改进，第一趟排序时将数据分成两部分，一部分比另一部分的所有数据都要小，然后递归调用，在变量都实行快速排序
+
+```js
+function quickSort(ele){
+    if(ele.length<=1){
+        return ele;
+    }
+
+    var piovtIndex = Math.floor(ele.length/2);
+
+    var pivot = ele.splice(piovtIndex,1)[0];
+    var left = [];
+    var right = [];
+    for(var i=0;i<ele.length;i++){
+        if(ele[i]<pivot){
+            left.push(ele[i])
+        }else{
+            right.push(ele[i])
+        }
+    }
+
+    return quickSort(left).concat([pivot],quickSort(right));
+
+}
+
+var elements = [5, 6, 2, 1, 3, 8, 7, 1.2, 5.5, 4.5]
+
+document.write(quickSort(elements))
+```
+
+- 插入排序
+
+解析：
+
+&emsp;&emsp;1.从第一个元素开始，该元素可以认为已经被排序
+
+&emsp;&emsp;2.取出下一个元素，在已经排序的元素序列中从后向前扫描
+
+&emsp;&emsp;3.如果该元素（已排序）大于新元素，将该元素移动下一位置
+
+&emsp;&emsp;4.重复步骤3，直接找到已排序的元素小于或者等于新元素的位置
+
+&emsp;&emsp;5.将新元素插入到下一位置中
+
+&emsp;&emsp;6.重复步骤2
+
+```js
+function sort(ele){
+    // 假设第0个元素是一个有序的数列，第一个以后的是无需的序列，
+    // 所有从第一个元素开始将无序列的元素插入到有序数列中
+    for(var i=1;i<ele.length;i++){
+        // 升序
+        if(ele[i]<ele[i-1]){
+            var guard = ele[i];
+            var j = i-1;
+            ele[i] = ele[j];
+            while(j>= 0 && guard < ele[j]){
+                ele[j+1] = ele[j]
+                j--
+            }
+            ele[j+1] = guard;
+        }
+    }
+}
+
+var elements = [5, 9, 3, 6, 7, 4, 1, 8, 2];
+
+document.write('没调用之前：'+elements)
+document.write('<br />')
+sort(elements)
+document.write('没调用之前：'+elements)
+```
+
+https://www.cnblogs.com/beli/p/6297741.html
