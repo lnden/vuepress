@@ -896,7 +896,7 @@ axios({
     }
 })
 ```
-## axio拦截器
+## axios拦截器
 
 你可以截取请求或响应在被 then 或者 catch 处理之前
 ```js
