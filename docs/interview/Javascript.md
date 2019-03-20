@@ -1202,3 +1202,35 @@ document.write('没调用之前：'+elements)
 ```
 
 https://www.cnblogs.com/beli/p/6297741.html
+
+## break和continue的区别
+
+- break 用于跳出循环，执行循环后内的容
+```js
+// break
+var x = ''
+for(let i=0;i<10;i++){
+    if(i==3){
+        break;
+    }
+    x = x + '该数字为' + i + '<br>'
+}
+```
+
+- continue 用于跳过循环中的一个迭代，之后继续循环
+```js
+// continue
+var x = ''
+for(let i=0;i<10;i++){
+    if(i==3){
+        continue;
+    }
+    x = x + '该数字为' + i +'<br>'
+}
+```
+
+## script defer和async的区别
+
+- defer 异步加载，元素写完成后执行
+
+- async 异步加载，与元素渲染并行执行
