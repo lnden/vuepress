@@ -35,6 +35,7 @@ function getBasics(title) {
             children: [
                 '',
                 'ECMAScript',
+                'Git',
                 'HTML5',
                 'CSS3',
                 'demo',
