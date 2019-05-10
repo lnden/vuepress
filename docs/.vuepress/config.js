@@ -11,7 +11,7 @@ module.exports = {
             { text: 'Frame',  link: '/frame/' },
             { text: 'Interview',  link: '/interview/' },
             { text: 'Planning', link: '/planning/' },
-            { text: 'GitHub',  link: 'https://github.com/dinglindong' },
+            { text: 'GitHub',  link: 'https://github.com/lnden' },
         ],
         sidebar:{
             '/basics/': getBasics('Basics'),
