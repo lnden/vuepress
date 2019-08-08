@@ -60,9 +60,11 @@
 
 - git tag #查看所有的tag标签
 
-- git tag -l v1.0.*  #查看某个版本系列的tag
+- git tag -a v1.0.0 -m 'version 20180817 ' #创建一个带有描述的tag标签
 
-- git tag [标签名称v1.0.0] #创建标签
+- git checkout -b branch_name tag_name #切换到指定标签且新分支
+
+- git tag -l v1.0.*  #查看某个版本系列的tag
 
 - git show v1.0.0 #查看标签的详情，可以看到你commit的内容
 
@@ -71,3 +73,6 @@
 - git tag -d v1.0.0 #删除本地标签
 
 - git push origin :refs/tags/v1.0.0 #删除远程标签
+
+
+
