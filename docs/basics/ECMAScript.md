@@ -1287,3 +1287,22 @@ const result = Object.fromEntries(entries);
 
 &emsp;&emsp;assert.equal(sym.description, 'The description');
 
+[^_^]: # (分割线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~)
+
+
+## ES2020[ES11]新特性
+
+### TC39 Stage 3
+
+```$xslt
+const obj = {
+    name: 'lily',
+    age: 18
+}
+
+console.log(obj.name)
+console.log(obj?.name)
+```
+这个是一个新的提案，本来如果values是空的话，取mobile 是会报错的，加上问号之后，就会返回undefiend。
+
+[TC39](https://github.com/tc39/proposal-optional-chaining)

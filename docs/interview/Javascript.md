@@ -997,7 +997,7 @@ window.onload = function(){
 }
 ```
 
-## JS时间机制
+## JS事件机制
 
 - 阻止事件默认行为
 ```js
